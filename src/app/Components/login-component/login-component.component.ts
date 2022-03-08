@@ -34,7 +34,10 @@ export class LoginComponentComponent implements OnInit {
       .RequestLogin(this.userLogin.getRawValue())
       .subscribe((data: any) => {
         if (data.ok === 'Admin') {
-          this.router.navigate(['/home'], {state:  data.ok });
+          this.router.navigate(['/home'], { state: data.ok });
+        }
+        if (data.ok === 'Member') {
+          this.router.navigate(['/home'], { state: data.ok });
         }
       });
   };
