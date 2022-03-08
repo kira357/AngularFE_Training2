@@ -1,0 +1,27 @@
+/* You can add global styles to this file, and also import other style files */
+.main {
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(to right, #7b4397, #dc2430);
+}
+.custom-card {
+  width: 500px;
+  background-color: white;
+  margin: auto;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.card-header {
+  background-image: linear-gradient(to left, #141e30, #243b55);
+}
+.footer-card {
+  text-align: right;
+  display: flex;
+  justify-content: right;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.btn {
+  background-image: linear-gradient(to right, #141e30, #243b55);
+  width: 100px;
+}

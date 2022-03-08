@@ -1,0 +1,79 @@
+<div class="main d-flex justify-content-center align-items-center">
+  <div class="main-content">
+    <div class="container h-100">
+      <div>
+        <div class="h-100 custom-card">
+          <div class="card-header text-center">
+            <h2 class="text-white text-custom fw-bold">Register</h2>
+          </div>
+          <div class="card-body">
+            <form 
+            (ngSubmit)="onSubmit()"
+            [formGroup]="userLogin"
+            action="javascript:void(0)">
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="email"
+                  name="email"
+                  formControlName="email"
+                />
+              </div>
+              <div class="form-group">
+                <label for="name">Full Name</label>
+                <input
+                  matInput
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  name="name"
+                  formControlName="name"
+                />
+              </div>
+              <div class="form-group">
+                <label for="username">User name</label>
+                <input
+                  matInput
+                  type="text"
+                  class="form-control"
+                  id="username"
+                  name="username"
+                  formControlName="username"
+                />
+              </div>
+              <div class="form-group">
+                <label for="password">password</label>
+                <input
+                  matInput
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  name="password"
+                  formControlName="password"
+                />
+              </div>
+
+              <div class="form-group footer-card">
+                <a
+                  class="btn fs-3 text-white rounded-pill"
+                  [routerLink]="['/login']"
+                >
+                  Cancel
+                </a>
+                <button
+                  type="submit"
+                  class="btn btn-danger fs-3 ml-2 text-white rounded-pill"
+                >
+                  <!-- <a [routerLink]="['/login']"> Register </a> -->
+                   Register 
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
