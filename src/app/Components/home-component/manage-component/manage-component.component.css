@@ -1,0 +1,25 @@
+.content-container {
+  padding-top: 20px;
+}
+.custom-card {
+  width: 50%;
+  background-color: white;
+  margin: auto;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.card-header {
+  background-image: linear-gradient(to left, #141e30, #243b55);
+}
+.footer-card {
+  text-align: right;
+  display: flex;
+  justify-content: right;
+  align-items: flex-end;
+  padding-top: 10px;
+}
+.btn {
+  background-image: linear-gradient(to right, #141e30, #243b55);
+  width: 100px;
+}

@@ -1,0 +1,9 @@
+.content-container {
+  padding-top: 20px;
+}
+.pq-grid {
+  background-image: linear-gradient(to right, #141e30, #243b55);
+}
+:host/deep/ .pq-grid-table>tbody>.pq-grid-row{
+  background-color: #cfd4db ;
+}

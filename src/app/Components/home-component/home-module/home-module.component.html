@@ -1,1 +1,33 @@
-<app-dashboards-component></app-dashboards-component>
+<div class="sidebar-container">
+  <div class="sidebar-logo">Project Name</div>
+  <ul class="sidebar-navigation">
+    <li class="header">Navigation</li>
+    <li class="p-2 mt-2">
+      <a [routerLink]="['/home/dashboards']">
+        <i class="fa fa-home" aria-hidden="true"></i> Dashboard
+      </a>
+    </li>
+    <li class="p-2 mt-2">
+      <a [routerLink]="['/information']">
+        <i class="fa fa-tachometer" aria-hidden="true"></i> Create employees
+      </a>
+    </li>
+    <li class="header">Managment</li>
+    <li class="p-2 mt-2">
+      <a [routerLink]="['/home/manage']">
+        <i class="fa fa-users" aria-hidden="true">Manage Acaount </i>
+      </a>
+    </li>
+    <li class="p-2 mt-2">
+      <a [routerLink]="['/login'] ">
+        <button class="fa fa-cog" aria-hidden="true" (click)="handleLogout()" type="button"></button> Logout
+      </a>
+    </li>
+  </ul>
+</div>
+
+<div class="content-container">
+  <div class="container setwidth">
+    <router-outlet></router-outlet>
+  </div>
+</div>

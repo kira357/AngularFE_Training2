@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiServiceService } from '@app/Services/api-service.service';
 
 @Component({
-  selector: 'app-manage-component',
-  templateUrl: './manage-component.component.html',
-  styleUrls: ['./manage-component.component.css'],
+  selector: 'app-main-component',
+  templateUrl: './main-component.component.html',
+  styleUrls: ['./main-component.component.css'],
 })
-export class ManageComponentComponent implements OnInit {
+export class MainComponentComponent implements OnInit {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -15,19 +15,17 @@ export class ManageComponentComponent implements OnInit {
   ) {}
 
   check: any;
-
+  settingOptions: any;
   setting = {
-    width: 85,
+    width: 100,
     editable: false,
   };
-
   dataAccount: any[] = [];
 
   ngOnInit() {
-    this.GetAllAccount();
+    this.getAllAccount();
   }
-
-  GetAllAccount = () => {
+  getAllAccount = () => {
     this.service.RequestShowListUSer().subscribe((data: any) => {
       this.dataAccount = data;
       console.log('check ', this.dataAccount);

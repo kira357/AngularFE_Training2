@@ -13,10 +13,15 @@
   padding-top: 20px;
 }
 
+.setwidth {
+  max-width: 1300px;
+}
+
 .sidebar-logo {
   padding: 10px 15px 10px 30px;
-  font-size: 20px;
-  background-color: #2574a9;
+  font-size: 22px;
+  font-weight: bold;
+  background-image: linear-gradient(to right, #141e30, #243b55);
 }
 
 .sidebar-navigation {
@@ -79,6 +84,6 @@
   background-color: transparent;
 }
 
-.content-container {
+/* .content-container {
   padding-left: 220px;
-}
+} */

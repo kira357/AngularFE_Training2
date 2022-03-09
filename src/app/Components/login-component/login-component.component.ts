@@ -22,6 +22,7 @@ export class LoginComponentComponent implements OnInit {
     email: '',
     approve: false,
   };
+  
   userLogin = this.formBuilder.group({
     userName: '',
     password: '',
@@ -35,9 +36,14 @@ export class LoginComponentComponent implements OnInit {
       .subscribe((data: any) => {
         if (data.ok === 'Admin') {
           this.router.navigate(['/home'], { state: data.ok });
+          localStorage.setItem('Admin', data.ok);
+   
+          console.log('check 1 ', data.ok);
         }
         if (data.ok === 'Member') {
           this.router.navigate(['/home'], { state: data.ok });
+          localStorage.setItem('Member', data.ok);
+          console.log('check 2', data.ok);
         }
       });
   };
