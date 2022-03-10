@@ -6,8 +6,17 @@ import { HomeModuleComponent } from './home-module.component';
 import { ManageComponentComponent } from '../manage-component/manage-component.component';
 import { DashboardsComponentComponent } from '../dashboards-component/dashboards-component.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 @NgModule({
-  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatTableModule,
+    MatCheckboxModule,
+  ],
   declarations: [
     HomeModuleComponent,
     ManageComponentComponent,
