@@ -31,85 +31,90 @@ export class DashboardsComponentComponent implements OnInit, OnChanges {
   @Input() settingOptions: any = {};
   newData: any[] = [];
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.settingOptions.columns);
+  }
 
-  columns1 = [
-    {
-      title: 'Full Name',
-      width: this.settingOptions.width,
-      dataType: 'string',
-      dataIndx: 'name',
-      editable: this.settingOptions.editable,
-      align: 'center',
-    },
-    {
-      title: 'User Name',
-      width: this.settingOptions.width,
-      dataType: 'string',
-      dataIndx: 'userName',
-      editable: this.settingOptions.editable,
-      align: 'center',
-    },
-    {
-      title: 'Email',
-      width: this.settingOptions.width,
-      dataType: 'string',
-      dataIndx: 'email',
-      editable: this.settingOptions.editable,
-      align: 'center',
-    },
-    {
-      title: 'Position',
-      width: this.settingOptions.width,
-      dataType: 'string',
-      dataIndx: 'position',
-      editable: this.settingOptions.editable,
-      align: 'center',
-    },
-    {
-      title: 'Approved',
-      width: this.settingOptions.width,
-      dataType: 'bool',
-      align: 'center',
-      dataIndx: 'approve',
-      editor: this.settingOptions.editable,
-      type: 'checkbox',
-      validations: [{ type: 'nonEmpty', msg: 'Required' }],
-    },
-    {
-      title: 'Options',
-      editable: this.settingOptions.editable,
-      sortable: false,
-      align: 'center',
-      render: function (ui) {
-        return (
-          "<div> <button type='button' class='update_btn btn btn-primary mr-1'>Update</button>" +
-          "<button type='button' class='delete_btn btn btn-success'>Detele</button>" +
-          '</div>'
-        );
-      },
-      postRender: function (ui) {
-        var rowIndx = ui.rowIndx,
-          grid = this,
-          $cell = grid.getCell(ui);
+  // columns1 = [
 
-        $cell.find('button').bind('click', function () {
-          grid.addClass({ rowIndx: ui.rowIndx, cls: 'pq-row-delete' });
+  //   {
+  //     title: 'Full Name',
+  //     width: this.settingOptions.width,
+  //     dataType: 'string',
+  //     dataIndx: 'name',
+  //     editable: this.settingOptions.editable,
+  //     align: 'center',
+  //   },
+  //   {
+  //     title: 'User Name',
+  //     width: this.settingOptions.width,
+  //     dataType: 'string',
+  //     dataIndx: 'userName',
+  //     editable: this.settingOptions.editable,
+  //     align: 'center',
+  //   },
+  //   {
+  //     title: 'Email',
+  //     width: this.settingOptions.width,
+  //     dataType: 'string',
+  //     dataIndx: 'email',
+  //     editable: this.settingOptions.editable,
+  //     align: 'center',
+  //   },
+  //   {
+  //     title: 'Position',
+  //     width: this.settingOptions.width,
+  //     dataType: 'string',
+  //     dataIndx: 'position',
+  //     editable: this.settingOptions.editable,
+  //     align: 'center',
+  //   },
+  //   {
+  //     title: 'Approved',
+  //     width: this.settingOptions.width,
+  //     dataType: 'bool',
+  //     align: 'center',
+  //     dataIndx: 'approve',
+  //     editor: this.settingOptions.editable,
+  //     type: 'checkbox',
+  //     validations: [{ type: 'nonEmpty', msg: 'Required' }],
+  //   },
+  //   {
+  //     title: 'Options',
+  //     editable: this.settingOptions.editable,
+  //     sortable: false,
+  //     align: 'center',
+  //     render: function (ui) {
+  //       return (
+  //         "<div> <button type='button' class='update_btn btn btn-primary mr-1'>Update</button>" +
+  //         "<button type='button' class='delete_btn btn btn-success'>Detele</button>" +
+  //         '</div>'
+  //       );
+  //     },
+  //     postRender: function (ui) {
+  //       var rowIndx = ui.rowIndx,
+  //         grid = this,
+  //         $cell = grid.getCell(ui);
 
-          var ans = window.confirm(
-            'Are you sure to delete row No ' + (rowIndx + 1) + '?'
-          );
-          grid.removeClass({ rowIndx: rowIndx, cls: 'pq-row-delete' });
-          if (ans) {
-            grid.deleteRow({ rowIndx: rowIndx });
-          }
-        });
-      },
-    },
-  ];
+  //       $cell.find('button').bind('click', function () {
+  //         grid.addClass({ rowIndx: ui.rowIndx, cls: 'pq-row-delete' });
+
+  //         var ans = window.confirm(
+  //           'Are you sure to delete row No ' + (rowIndx + 1) + '?'
+  //         );
+  //         grid.removeClass({ rowIndx: rowIndx, cls: 'pq-row-delete' });
+  //         if (ans) {
+  //           grid.deleteRow({ rowIndx: rowIndx });
+  //         }
+  //       });
+  //     },
+  //   },
+  // ];
+
   options = {
+    postRenderInterval: -1, //synchronous post render.
     showTop: false,
-    height: 500,
+    height: 590,
     numberCell: {
       show: false,
     },
@@ -117,7 +122,7 @@ export class DashboardsComponentComponent implements OnInit, OnChanges {
       autoFit: true,
     },
     columnTemplate: { width: 200 },
-    colModel: this.columns1,
+    colModel: this.settingOptions.columns,
     dataModel: {
       data: this.newData,
     },
@@ -133,7 +138,9 @@ export class DashboardsComponentComponent implements OnInit, OnChanges {
       this.grid = pq.grid(this.el.nativeElement.children[0], this.options);
     }
     if (this.grid) {
+      this.grid.refreshCM(this.settingOptions.columns);
       this.grid.options.dataModel.data = this.newData;
+
       console.log('check 1 ', this.newData);
       this.grid.refreshDataAndView();
     }

@@ -16,9 +16,59 @@ export class MainComponentComponent implements OnInit {
 
   check: any;
   settingOptions: any;
-  setting = {
-    width: 100,
-    editable: false,
+
+  settingColumn = {
+    columns: [
+      {
+        title: 'Full Name',
+        width: 100,
+        dataType: 'string',
+        dataIndx: 'name',
+        editable: 100,
+        align: 'center',
+      },
+      {
+        title: 'User Name',
+        width: 100,
+        dataType: 'string',
+        dataIndx: 'userName',
+        editable: false,
+        align: 'center',
+      },
+      {
+        title: 'Email',
+        width: 100,
+        dataType: 'string',
+        dataIndx: 'email',
+        editable: false,
+        align: 'center',
+      },
+      {
+        title: 'Position',
+        width: 100,
+        dataType: 'string',
+        dataIndx: 'position',
+        editable: false,
+        align: 'center',
+      },
+      {
+        title: 'Approved',
+        width: 100,
+        dataType: 'bool',
+        align: 'center',
+        dataIndx: 'approve',
+        editor: false,
+        type: 'checkbox',
+        validations: [{ type: 'nonEmpty', msg: 'Required' }],
+        render: function (ui) {
+          if (ui.rowData.approve === true) {
+            return "<div> <input type='checkbox' checked='checked' disabled></div>";
+          } else {
+            return "<div> <input type='checkbox' disabled></div>";
+          }
+        },
+      },
+    ],
   };
   dataAccount: any[] = [];
 

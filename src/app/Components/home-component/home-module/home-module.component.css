@@ -12,6 +12,9 @@
 .content-container {
   padding-top: 20px;
 }
+.content-container {
+  padding-left: 220px;
+}
 
 .setwidth {
   max-width: 1300px;

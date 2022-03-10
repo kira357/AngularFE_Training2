@@ -19,6 +19,7 @@ const routes: Routes = [
       { path: 'manage', component: ManageComponentComponent },
     ],
   },
+  { path: 'createemployee' ,component: LoginComponentComponent },
 ];
 
 @NgModule({

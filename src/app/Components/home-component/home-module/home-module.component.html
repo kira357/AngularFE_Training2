@@ -19,15 +19,15 @@
       </a>
     </li>
     <li class="p-2 mt-2">
-      <a [routerLink]="['/login'] ">
-        <button class="fa fa-cog" aria-hidden="true" (click)="handleLogout()" type="button"></button> Logout
+      <a [routerLink]="['/login']" (click)="handleLogout()">
+        <i class="fa fa-users" aria-hidden="true"> Logout</i>
       </a>
     </li>
   </ul>
 </div>
 
 <div class="content-container">
-  <div class="container setwidth">
+  <div class="container-fluid">
     <router-outlet></router-outlet>
   </div>
 </div>

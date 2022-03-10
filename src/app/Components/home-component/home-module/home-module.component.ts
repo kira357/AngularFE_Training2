@@ -4,7 +4,7 @@ import { ApiServiceService } from '../../../Services/api-service.service';
 @Component({
   selector: 'app-home-module',
   templateUrl: './home-module.component.html',
-  styleUrls: ['./home-module.component.css']
+  styleUrls: ['./home-module.component.css'],
 })
 export class HomeModuleComponent implements OnInit {
   constructor(
@@ -17,7 +17,13 @@ export class HomeModuleComponent implements OnInit {
   ngOnInit() {}
 
   handleLogout = () => {
-    localStorage.clear()
+    if (localStorage.getItem('Admin')) {
+      localStorage.removeItem('Admin');
+      this.router.navigate(['/login']);
     }
-
-  }
+    if (localStorage.getItem('Member')) {
+      localStorage.removeItem('Member');
+      this.router.navigate(['/login']);
+    }
+  };
+}

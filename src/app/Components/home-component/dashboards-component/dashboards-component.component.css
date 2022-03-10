@@ -3,7 +3,9 @@
 }
 .pq-grid {
   background-image: linear-gradient(to right, #141e30, #243b55);
+  border-radius: 10px;
+  border: 1px solid rgba(100, 100, 111, 0.2);
 }
-:host/deep/ .pq-grid-table>tbody>.pq-grid-row{
-  background-color: #cfd4db ;
+:host/deep/ .pq-grid-table > tbody > .pq-grid-row {
+  background-color: #cfd4db;
 }
