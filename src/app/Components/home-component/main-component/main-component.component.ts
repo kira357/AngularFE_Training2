@@ -58,6 +58,7 @@ export class MainComponentComponent implements OnInit {
         align: 'center',
         dataIndx: 'approve',
         editor: false,
+
         type: 'checkbox',
         validations: [{ type: 'nonEmpty', msg: 'Required' }],
         render: function (ui) {

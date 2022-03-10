@@ -5,7 +5,8 @@ import {
   Renderer2,
   Input,
   OnChanges,
-  SimpleChanges,
+  EventEmitter,
+  Output,
 } from '@angular/core';
 import { ApiServiceService } from '@app/Services/api-service.service';
 import pq from 'pqgridf';
@@ -29,7 +30,12 @@ export class DashboardsComponentComponent implements OnInit, OnChanges {
 
   @Input() dataAccount: any[] = [];
   @Input() settingOptions: any = {};
+  @Output() dataClick = new EventEmitter<any>();
   newData: any[] = [];
+  myStyle: any = {
+    pq_rowattr: { style: 'background:red;' },
+  };
+
 
   ngOnInit() {
     console.log(this.settingOptions.columns);
@@ -131,6 +137,11 @@ export class DashboardsComponentComponent implements OnInit, OnChanges {
       thead: 'table table-striped table-condensed table-bordered ',
       tbody: 'table table-striped table-condensed table-bordered',
     },
+
+    rowClick: (evt, ui) => {
+      console.log('row click', ui.rowData);
+      this.GetDataRow(ui.rowData);
+    },
   };
   CreateGrid = () => {
     this.newData = this.dataAccount;
@@ -144,5 +155,9 @@ export class DashboardsComponentComponent implements OnInit, OnChanges {
       console.log('check 1 ', this.newData);
       this.grid.refreshDataAndView();
     }
+  };
+
+  GetDataRow = (rowData) => {
+    this.dataClick.emit(rowData);
   };
 }

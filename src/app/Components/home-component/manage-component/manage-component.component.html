@@ -24,6 +24,7 @@
                         id="name"
                         name="name"
                         formControlName="name"
+                        [value]="employee.fullname"
                       />
                     </div>
                     <div class="form-group">
@@ -34,9 +35,10 @@
                         id="email"
                         name="email"
                         formControlName="email"
+                        [value]="employee.email"
                       />
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                       <label for="address">Address</label>
                       <input
                         type="text"
@@ -45,16 +47,16 @@
                         name="address"
                         formControlName="address"
                       />
-                    </div>
+                    </div> -->
 
                     <div class="form-group">
-                      <label for="username">Postion</label>
+                      <label for="position">Postion</label>
                       <select
-                        class="fs-4 rounded"
                         class="form-control"
                         id="position"
                         name="position"
                         formControlName="position"
+                        [value]="employee.position"
                       >
                         <option
                           *ngFor="let item of listPosition"
@@ -74,6 +76,7 @@
                         id="username"
                         name="username"
                         formControlName="username"
+                        [value]="employee.username"
                       />
                     </div>
                     <div class="form-group">
@@ -107,6 +110,7 @@
             <app-dashboards-component
               [dataAccount]="dataAccount"
               [settingOptions]="settingColumn"
+              (dataClick)="HandleOnClickRow($event)"
             ></app-dashboards-component>
           </div>
         </div>

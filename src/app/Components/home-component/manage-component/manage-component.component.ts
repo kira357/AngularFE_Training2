@@ -1,5 +1,6 @@
+import { Employees } from './../../../Common/Employee';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder , FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiServiceService } from '@app/Services/api-service.service';
 
@@ -11,13 +12,24 @@ import { ApiServiceService } from '@app/Services/api-service.service';
 export class ManageComponentComponent implements OnInit {
   constructor(
     private service: ApiServiceService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router
   ) {}
 
   check: any;
   infoRegister: any[] = [];
   dataAccount: any[] = [];
   listPosition: any[] = ['Director', 'Leader', 'Member'];
+  Form: any;
+
+  employee: Employees = {
+    fullname: '',
+    username: '',
+    email: '',
+    position: '',
+    address: '',
+    approve: false,
+  };
 
   userCreated = this.formBuilder.group({
     username: '',
@@ -25,7 +37,6 @@ export class ManageComponentComponent implements OnInit {
     email: '',
     name: '',
     position: '',
-    address:'',
     approve: false,
   });
 
@@ -36,7 +47,7 @@ export class ManageComponentComponent implements OnInit {
         width: 90,
         dataType: 'string',
         dataIndx: 'name',
-        editable: false,
+        editable: true,
         align: 'center',
       },
       {
@@ -63,24 +74,37 @@ export class ManageComponentComponent implements OnInit {
         editable: false,
         align: 'center',
       },
+      // {
+      //   title: 'Approved',
+      //   width: 90,
+      //   dataType: 'bool',
+      //   align: 'center',
+      //   dataIndx: 'approve',
+      //   editor: true,
+      //   editable: true,
+      //   type: 'checkbox',
+      //   validations: [{ type: 'nonEmpty', msg: 'Required' }],
+      // },
       {
-        title: 'Approved',
-        width: 90,
+        title: 'Discontinued',
+        width: 100,
         dataType: 'bool',
         align: 'center',
         dataIndx: 'approve',
-        editor: true,
-        editable: false,
+        editor: false,
+        editable: true,
         type: 'checkbox',
         validations: [{ type: 'nonEmpty', msg: 'Required' }],
-        render: function (ui) {
-          if (ui.rowData.approve === true) {
-            return "<div> <input type='checkbox' checked='checked'></div>";
-          } else {
-            return "<div> <input type='checkbox' ></div>";
-          }
-        },
+        cb: { header: true, select: true, all: true },
       },
+
+      // render: function (ui) {
+      //   if (ui.rowData.approve === true) {
+      //     return "<div> <input type='checkbox' checked='checked'></div>";
+      //   } else {
+      //     return "<div> <input type='checkbox' ></div>";
+      //   }
+      // },
       {
         title: 'Options',
         editable: false,
@@ -98,11 +122,11 @@ export class ManageComponentComponent implements OnInit {
             cell = grid.getCell(ui);
           cell.find('#delete_btn').bind('click', (evt) => {
             evt.preventDefault();
-            console.log('evt', evt);
             // this.deleteRow(rowIndx, grid);
           });
-          cell.find('#update_btn').bind('click', function (evt) {
-            // updateRow(rowIndx, grid, true);
+          cell.find('#update_btn').bind('click', (evt) => {
+            // this.updateRow(rowIndx, grid);
+            console.log('test update', ui.rowData.approve);
           });
         },
       },
@@ -116,7 +140,8 @@ export class ManageComponentComponent implements OnInit {
   GetAllAccount = () => {
     this.service.RequestShowListUSer().subscribe((data: any) => {
       this.dataAccount = data;
-      console.log('check ', this.dataAccount);
+      console.log('dataAccount', data);
+      console.log('dataAccount', this.dataAccount);
     });
   };
 
@@ -133,9 +158,29 @@ export class ManageComponentComponent implements OnInit {
       grid.removeClass({ rowIndx: rowIndx, cls: 'pq-row-delete' });
     }
   };
-  updateRow = (rowIndx, grid) => {};
+  updateRow = (rowIndx, grid) => {
+    console.log('checkrow', rowIndx);
+  };
 
   onSubmit = () => {
-  console.log('check', this.userCreated.getRawValue());
+    this.Form = JSON.stringify(this.userCreated.getRawValue());
+    this.service.RequestRegister(this.Form).subscribe((data: any) => {
+      this.infoRegister = data;
+      console.log(this.infoRegister);
+      if (data.ok === 'Success') {
+        console.log('check', this.infoRegister);
+      }
+    });
+  };
+
+  HandleOnClickRow = (evt) => {
+    this.employee = {
+      fullname: evt.name,
+      username: evt.userName,
+      email: evt.email,
+      position: evt.position,
+      address: '',
+      approve: false,
+    };
   };
 }

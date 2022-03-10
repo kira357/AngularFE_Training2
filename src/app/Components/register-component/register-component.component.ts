@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm, FormGroup, FormBuilder } from '@angular/forms';
 import { ApiServiceService } from './../../Services/api-service.service';
 import { Router } from '@angular/router';
+import { Guid } from 'js-guid';
 @Component({
   selector: 'app-register-component',
   templateUrl: './register-component.component.html',
@@ -28,8 +29,10 @@ export class RegisterComponentComponent implements OnInit {
     email: '',
     name: '',
     position: 'memeber',
+    idemployee: Guid.newGuid().toString(),
     approve: false,
   });
+
   formUser: any;
   onSubmit() {
     this.formUser = this.userLogin.getRawValue();

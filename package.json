@@ -27,6 +27,7 @@
     "bootstrap": "^4.6.1",
     "jquery": "^3.6.0",
     "jquery-ui-pack": "^1.12.3",
+    "js-guid": "^1.0.0",
     "jszip": "^3.7.1",
     "pqgridf": "^3.5.1",
     "rxjs": "~7.5.0",
