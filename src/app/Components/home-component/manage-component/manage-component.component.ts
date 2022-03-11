@@ -255,5 +255,15 @@ export class ManageComponentComponent implements OnInit {
     });
   };
 
-  removeData = () => {};
+  removeData = () => {
+    this.service.RequestDetele(this.arrayApprove).subscribe((data: any) => {
+      this.result = data;
+      console.log('result', this.result);
+      if (data.ok === 'Success') {
+        console.log('check', this.result);
+        this.table.renderRows();
+      }
+    }
+    );
+  };
 }

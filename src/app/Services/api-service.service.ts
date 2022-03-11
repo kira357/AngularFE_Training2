@@ -30,6 +30,6 @@ export class ApiServiceService {
     return this.http.put(`${this.rootURL}/update_approved`, User);
   };
   RequestDetele = (User: any) => {
-    return this.http.delete(`${this.rootURL}/detele_account`, User);
+    return this.http.delete(`${this.rootURL}/detele_account`, {headers: this.headers, body: User});
   };
 }
