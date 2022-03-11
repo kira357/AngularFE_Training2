@@ -1,31 +1,17 @@
 import { Employees } from './../../../Common/Employee';
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiServiceService } from '@app/Services/api-service.service';
 
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatTableDataSource } from '@angular/material/table';
-
-// export interface PeriodicElement {
-//   name: string;
-//   position: number;
-//   weight: number;
-//   symbol: string;
-// }
-
-// const ELEMENT_DATA: PeriodicElement[] = [
-//   {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-//   {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-//   {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-//   {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-//   {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-//   {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-//   {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-//   {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-//   {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-//   {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-// ];
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-manage-component',
@@ -38,8 +24,8 @@ export class ManageComponentComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router
   ) {}
-  
 
+  @ViewChild(MatTable) table: MatTable<Employees>;
 
   check: any;
   infoRegister: any[] = [];
@@ -54,6 +40,7 @@ export class ManageComponentComponent implements OnInit {
     position: '',
     address: '',
     approve: false,
+    password: '',
   };
   employee1: Employees[] = [
     {
@@ -63,6 +50,7 @@ export class ManageComponentComponent implements OnInit {
       position: '',
       address: '',
       approve: false,
+      password: '',
     },
   ];
 
@@ -79,95 +67,92 @@ export class ManageComponentComponent implements OnInit {
     approve: false,
   });
 
-  settingColumn = {
-    columns: [
-      {
-        title: 'Full Name',
-        width: 90,
-        dataType: 'string',
-        dataIndx: 'name',
-        editable: true,
-        align: 'center',
-      },
-      {
-        title: 'User Name',
-        width: 90,
-        dataType: 'string',
-        dataIndx: 'userName',
-        editable: false,
-        align: 'center',
-      },
-      {
-        title: 'Email',
-        width: 90,
-        dataType: 'string',
-        dataIndx: 'email',
-        editable: false,
-        align: 'center',
-      },
-      {
-        title: 'Position',
-        width: 90,
-        dataType: 'string',
-        dataIndx: 'position',
-        editable: false,
-        align: 'center',
-      },
-      {
-        title: 'Approved',
-        width: 90,
-        dataType: 'bool',
-        align: 'center',
-        dataIndx: 'approve',
-        editor: true,
-        editable: true,
-        type: 'checkbox',
-        validations: [{ type: 'nonEmpty', msg: 'Required' }],
-      },
+  // settingColumn = {
+  //   columns: [
+  //     {
+  //       title: 'Full Name',
+  //       width: 90,
+  //       dataType: 'string',
+  //       dataIndx: 'name',
+  //       editable: true,
+  //       align: 'center',
+  //     },
+  //     {
+  //       title: 'User Name',
+  //       width: 90,
+  //       dataType: 'string',
+  //       dataIndx: 'userName',
+  //       editable: false,
+  //       align: 'center',
+  //     },
+  //     {
+  //       title: 'Email',
+  //       width: 90,
+  //       dataType: 'string',
+  //       dataIndx: 'email',
+  //       editable: false,
+  //       align: 'center',
+  //     },
+  //     {
+  //       title: 'Position',
+  //       width: 90,
+  //       dataType: 'string',
+  //       dataIndx: 'position',
+  //       editable: false,
+  //       align: 'center',
+  //     },
+  //     {
+  //       title: 'Approved',
+  //       width: 90,
+  //       dataType: 'bool',
+  //       align: 'center',
+  //       dataIndx: 'approve',
+  //       editor: true,
+  //       editable: true,
+  //       type: 'checkbox',
+  //       validations: [{ type: 'nonEmpty', msg: 'Required' }],
+  //     },
 
-      // render: function (ui) {
-      //   if (ui.rowData.approve === true) {
-      //     return "<div> <input type='checkbox' checked='checked'></div>";
-      //   } else {
-      //     return "<div> <input type='checkbox' ></div>";
-      //   }
-      // },
-      {
-        title: 'Options',
-        editable: false,
-        sortable: false,
-        align: 'center',
-        render: function (ui) {
-          return (
-            "<button id='update_btn' type='button' class='btn btn-primary mr-1'>Update</button>" +
-            "<button id='delete_btn' type='button' class='btn btn-success'>Detele</button>"
-          );
-        },
-        postRender: function (ui) {
-          var rowIndx = ui.rowIndx,
-            grid = this,
-            cell = grid.getCell(ui);
-          cell.find('#delete_btn').bind('click', (evt) => {
-            evt.preventDefault();
-            // this.deleteRow(rowIndx, grid);
-          });
-          cell.find('#update_btn').bind('click', (evt) => {
-            // this.updateRow(rowIndx, grid);
-            console.log('test update', ui.rowData.approve);
-          });
-        },
-      },
-    ],
-  };
+  //     // render: function (ui) {
+  //     //   if (ui.rowData.approve === true) {
+  //     //     return "<div> <input type='checkbox' checked='checked'></div>";
+  //     //   } else {
+  //     //     return "<div> <input type='checkbox' ></div>";
+  //     //   }
+  //     // },
+  //     {
+  //       title: 'Options',
+  //       editable: false,
+  //       sortable: false,
+  //       align: 'center',
+  //       render: function (ui) {
+  //         return (
+  //           "<button id='update_btn' type='button' class='btn btn-primary mr-1'>Update</button>" +
+  //           "<button id='delete_btn' type='button' class='btn btn-success'>Detele</button>"
+  //         );
+  //       },
+  //       postRender: function (ui) {
+  //         var rowIndx = ui.rowIndx,
+  //           grid = this,
+  //           cell = grid.getCell(ui);
+  //         cell.find('#delete_btn').bind('click', (evt) => {
+  //           evt.preventDefault();
+  //           // this.deleteRow(rowIndx, grid);
+  //         });
+  //         cell.find('#update_btn').bind('click', (evt) => {
+  //           // this.updateRow(rowIndx, grid);
+  //           console.log('test update', ui.rowData.approve);
+  //         });
+  //       },
+  //     },
+  //   ],
+  // };
 
   ngOnInit() {
     this.GetAllAccount();
   }
 
   GetAllAccount = () => {
-    // displayedColumns: string[] = ['FullName', 'UserName', 'Email', 'Position', 'Approve'];
-    // dataSource = new MatTableDataSource<Employees>(this.employee1);
-    // selection = new SelectionModel<Employees>(true, []);
     this.displayedColumns = [
       'FullName',
       'UserName',
@@ -175,7 +160,6 @@ export class ManageComponentComponent implements OnInit {
       'Position',
       'Approve',
     ];
-
     this.service.RequestShowListUSer().subscribe((data: any) => {
       this.dataAccount = data;
       this.employee1 = data;
@@ -185,25 +169,9 @@ export class ManageComponentComponent implements OnInit {
     });
   };
 
-  deteleRow = (rowIndx, grid) => {
-    grid.addClass({ rowIndx: rowIndx, cls: 'pq-row-delete' });
-    console.log('checkrow', rowIndx);
-    var ans = window.confirm(
-      'Are you sure to delete row No ' + (rowIndx + 1) + '?'
-    );
-    if (ans) {
-      var ProductID = grid.getRecId({ rowIndx: rowIndx });
-      console.log(ProductID);
-    } else {
-      grid.removeClass({ rowIndx: rowIndx, cls: 'pq-row-delete' });
-    }
-  };
-  updateRow = (rowIndx, grid) => {
-    console.log('checkrow', rowIndx);
-  };
-
   onSubmit = () => {
     this.Form = JSON.stringify(this.userCreated.getRawValue());
+    console.log('Form', this.Form);
     this.service.RequestRegister(this.Form).subscribe((data: any) => {
       this.infoRegister = data;
       console.log(this.infoRegister);
@@ -213,7 +181,57 @@ export class ManageComponentComponent implements OnInit {
     });
   };
 
-  HandleOnClickRow = (evt) => {
+  onReset = () => {
+    this.employee = {
+      fullname: '',
+      username: '',
+      email: '',
+      position: '',
+      address: '',
+      approve: false,
+      password: '',
+    };
+  };
+
+  // HandleOnClickRow = (evt) => {
+  //   this.employee = {
+  //     fullname: evt.name,
+  //     username: evt.userName,
+  //     email: evt.email,
+  //     position: evt.position,
+  //     address: '',
+  //     approve: false,
+  //   };
+  // };
+
+  newRow: any = {};
+  arrayTrue: any[] = [];
+  arrayFalse: any[] = [];
+  arrayApprove: any[] = [];
+
+  result: any;
+
+  CheckCheck = (evt, row) => {
+    this.newRow = Object.assign({}, row, { approve: evt.checked });
+    if (evt.checked) {
+      this.arrayTrue.push(this.newRow);
+      let el1 = this.arrayFalse.find((itm) => itm.email === row.email);
+      if (el1) {
+        this.arrayFalse.splice(this.arrayFalse.indexOf(el1), 1);
+      }
+    } else {
+      this.newRow = Object.assign({}, row, { approve: evt.checked });
+      this.arrayFalse.push(this.newRow);
+      let el = this.arrayTrue.find((itm) => itm.email === row.email);
+      if (el) {
+        this.arrayTrue.splice(this.arrayTrue.indexOf(el), 1);
+        console.log('arrayTrue', this.arrayTrue);
+      }
+    }
+    this.arrayApprove = this.arrayTrue.concat(this.arrayFalse);
+    console.log('changedPermissions', this.arrayApprove);
+  };
+  getRowClick = (evt) => {
     this.employee = {
       fullname: evt.name,
       username: evt.userName,
@@ -221,14 +239,21 @@ export class ManageComponentComponent implements OnInit {
       position: evt.position,
       address: '',
       approve: false,
+      password: '********',
     };
+    console.log('getRow', this.employee);
   };
 
-  newRow = {};
-
-  CheckCheck = (evt, row) => {
-    console.log('check', { check: evt.checked, row: row });
-    this.newRow = Object.assign({}, row, { approve: evt.checked });
-    console.log('row', this.newRow);
+  updateData = () => {
+    this.service.RequestApprove(this.arrayApprove).subscribe((data: any) => {
+      this.result = data;
+      console.log('result', this.result);
+      if (data.ok === 'Success') {
+        console.log('check', this.result);
+        this.table.renderRows();
+      }
+    });
   };
+
+  removeData = () => {};
 }

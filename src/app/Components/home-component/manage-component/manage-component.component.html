@@ -1,6 +1,26 @@
 <div class="content-container">
   <div class="container-fluid px-4">
     <div class="body">
+      <div class="row mb-2">
+        <div class="col text-right">
+          <button
+            mat-raised-button
+            (click)="updateData()"
+            class="button-header"
+            type="button"
+          >
+            Update data
+          </button>
+          <button
+            mat-raised-button
+            (click)="removeData()"
+            class="button-header"
+            type="button"
+          >
+            Remove data
+          </button>
+        </div>
+      </div>
       <div class="row">
         <div class="col-md-4">
           <div class="bg-light rounded">
@@ -25,6 +45,7 @@
                         name="name"
                         formControlName="name"
                         [value]="employee.fullname"
+                        [(ngModel)]="employee.fullname"
                       />
                     </div>
                     <div class="form-group">
@@ -36,6 +57,7 @@
                         name="email"
                         formControlName="email"
                         [value]="employee.email"
+                        [(ngModel)]="employee.email"
                       />
                     </div>
                     <!-- <div class="form-group">
@@ -57,6 +79,7 @@
                         name="position"
                         formControlName="position"
                         [value]="employee.position"
+                        [(ngModel)]="employee.position"
                       >
                         <option
                           *ngFor="let item of listPosition"
@@ -77,6 +100,7 @@
                         name="username"
                         formControlName="username"
                         [value]="employee.username"
+                        [(ngModel)]="employee.username"
                       />
                     </div>
                     <div class="form-group">
@@ -88,13 +112,23 @@
                         id="password"
                         name="password"
                         formControlName="password"
+                        [value]="employee.password"
                       />
                     </div>
 
-                    <div class="form-group footer-card">
+                    <div
+                      class="form-group footer-card d-flex justify-content-between"
+                    >
+                      <button
+                        type="button"
+                        class="btn fs-3 text-white rounded-pill"
+                        (click)="onReset()"
+                      >
+                        Clear
+                      </button>
                       <button
                         type="submit"
-                        class="btn btn-danger fs-3 ml-2 text-white rounded-pill"
+                        class="btn fs-3 text-white rounded-pill"
                       >
                         Create
                       </button>
@@ -108,7 +142,6 @@
         <div class="col-md-8">
           <div class="bg-light rounded">
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-              
               <ng-container matColumnDef="FullName">
                 <th mat-header-cell *matHeaderCellDef>Full Name</th>
                 <td mat-cell *matCellDef="let element">
@@ -140,7 +173,7 @@
                 <td mat-cell *matCellDef="let row">
                   <mat-checkbox
                     (change)="CheckCheck($event, row)"
-                    [checked]="row.selected"
+                    [checked]="row.approve"
                   ></mat-checkbox>
                 </td>
               </ng-container>
@@ -149,7 +182,7 @@
               <tr
                 mat-row
                 *matRowDef="let row; columns: displayedColumns"
-                (click)="selection.toggle(row)"
+                (click)="getRowClick(row)"
               ></tr>
             </table>
           </div>
