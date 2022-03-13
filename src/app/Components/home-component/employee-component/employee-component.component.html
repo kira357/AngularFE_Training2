@@ -1,0 +1,192 @@
+<div class="content-container">
+  <div class="container-fluid px-4">
+    <div class="body">
+      <div class="row mb-2">
+        <div class="col text-right">
+          <button
+            mat-raised-button
+            class="button-header"
+            type="button"
+            (click)="removeData()"
+          >
+            Remove data
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="bg-light rounded">
+            <div class="main">
+              <div class="h-100 w-100 custom-card">
+                <div class="card-header text-center">
+                  <h2 class="text-white text-custom fw-bold">
+                    Create Employee
+                  </h2>
+                </div>
+                <div class="card-body">
+                  <form
+                    (ngSubmit)="onSubmit()"
+                    [formGroup]="employeeCreated"
+                    action="javascript:void(0)"
+                  >
+                    <div class="form-group">
+                      <label for="name">Full Name</label>
+                      <input
+                        matInput
+                        type="text"
+                        class="form-control"
+                        id="name"
+                        name="name"
+                        formControlName="name"
+                        [value]="user.nameEmployee"
+                        [(ngModel)]="user.nameEmployee"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="email">Email</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="email"
+                        name="email"
+                        formControlName="email"
+                        [value]="user.email"
+                        [(ngModel)]="user.email"
+                      />
+                    </div>
+
+                    <div class="form-group">
+                      <label for="position">Postion</label>
+                      <select
+                        class="form-control"
+                        id="position"
+                        name="position"
+                        formControlName="position"
+                        [value]="user.postionEmployee"
+                        [(ngModel)]="user.postionEmployee"
+                      >
+                        <option
+                          *ngFor="let item of listPosition"
+                          [value]="item"
+                        >
+                          {{ item }}
+                        </option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="address">Adrress</label>
+                      <input
+                        matInput
+                        type="text"
+                        class="form-control"
+                        id="address"
+                        name="address"
+                        formControlName="address"
+                        [value]="user.address"
+                        [(ngModel)]="user.address"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="user">Status Account</label>
+                      <input
+                        matInput
+                        type="text"
+                        class="form-control"
+                        id="user"
+                        name="user"
+                        formControlName="user"
+                        [value]="user.user"
+                        [(ngModel)]="user.user"
+                      />
+                    </div>
+
+                    <div
+                      class="form-group footer-card d-flex justify-content-between"
+                    >
+                      <button
+                        type="button"
+                        class="btn fs-3 text-white rounded-pill"
+                        (click)="onReset()"
+                      >
+                        Clear
+                      </button>
+                      <button
+                        type="button"
+                        class="btn fs-3 text-white rounded-pill"
+                        (click)="onUpdate()"
+                      >
+                        Update
+                      </button>
+                      <button
+                        type="submit"
+                        class="btn fs-3 text-white rounded-pill"
+                      >
+                        Create
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="bg-light rounded">
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+              <ng-container matColumnDef="nameEmployee">
+                <th mat-header-cell *matHeaderCellDef>Name Employee</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.nameEmployee }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef>Email</th>
+                <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="address">
+                <th mat-header-cell *matHeaderCellDef>Address</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.address }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="postionEmployee">
+                <th mat-header-cell *matHeaderCellDef>Postion Employee</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.postionEmployee }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="user">
+                <th mat-header-cell *matHeaderCellDef>Status Account</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.user }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="option">
+                <th mat-header-cell *matHeaderCellDef>Option</th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-checkbox
+                    (change)="CheckCheck($event, row)"
+                    [checked]="row.option"
+                  ></mat-checkbox>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr
+                mat-row
+                *matRowDef="let row; columns: displayedColumns"
+                (click)="getRowClick(row)"
+              ></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

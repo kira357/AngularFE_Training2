@@ -1,9 +1,273 @@
-<div class="content-container container">
-  <div class="container-fluid">
-    <button class="btn btn-primary m-2">Submit</button>
-    <app-dashboards-component
-      [dataAccount]="dataAccount"
-      [settingOptions] ="settingColumn"
-    ></app-dashboards-component>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#"
+          >Home <span class="sr-only">(current)</span></a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a
+          class="nav-link dropdown-toggle"
+          href="#"
+          id="navbarDropdown"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          Dropdown
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#">Disabled</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input
+        class="form-control mr-sm-2"
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+      />
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+        Search
+      </button>
+    </form>
   </div>
-</div>
+</nav>
+<main role="main" class="container">
+  <div class="starter-template mt-2 text-center">
+    <h1>INFORMATIONS EMPLOYEES</h1>
+    <div class="content-container">
+      <div class="container-fluid px-4">
+        <div class="body">
+          <div class="row mb-2">
+            <div class="col text-right"></div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="bg-light rounded">
+                <div class="main">
+                  <div class="h-100 w-100 custom-card">
+                    <div class="card-header text-center">
+                      <h2 class="text-white text-custom fw-bold">
+                        Create Employee
+                      </h2>
+                    </div>
+                    <div class="card-body">
+                      <form
+                        (ngSubmit)="onSubmit()"
+                        [formGroup]="employeeCreated"
+                        action="javascript:void(0)"
+                      >
+                        <div class="form-group">
+                          <label for="name">Full Name</label>
+                          <input
+                            matInput
+                            type="text"
+                            class="form-control"
+                            id="name"
+                            name="name"
+                            formControlName="name"
+                            [value]="user.nameEmployee"
+                            [(ngModel)]="user.nameEmployee"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label for="email">Email</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="email"
+                            name="email"
+                            formControlName="email"
+                            [value]="user.email"
+                            [(ngModel)]="user.email"
+                          />
+                        </div>
+
+                  
+
+                        <div class="form-group">
+                          <label for="address">Adrress</label>
+                          <input
+                            matInput
+                            type="text"
+                            class="form-control"
+                            id="address"
+                            name="address"
+                            formControlName="address"
+                            [value]="user.address"
+                            [(ngModel)]="user.address"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label for="user">Status Account</label>
+                          <input
+                            matInput
+                            type="text"
+                            class="form-control"
+                            id="user"
+                            name="user"
+                            formControlName="user"
+                            [value]="user.user"
+                            [(ngModel)]="user.user"
+                          />
+                        </div>
+
+                        <div
+                          class="form-group footer-card d-flex justify-content-between"
+                        >
+                          <button
+                            type="button"
+                            class="btn fs-3 text-white rounded-pill"
+                          >
+                            Clear
+                          </button>
+                          <button
+                            type="button"
+                            class="btn fs-3 text-white rounded-pill"
+                          >
+                            Update
+                          </button>
+                          <button
+                            type="submit"
+                            class="btn fs-3 text-white rounded-pill"
+                          >
+                            Create
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="col-md-8">
+              <div class="bg-light rounded">
+                <div class="main">
+                  <div class="h-100 w-100 custom-card">
+                    <div class="card-header text-center">
+                      <h2 class="text-white text-custom fw-bold">
+                        Information
+                      </h2>
+                    </div>
+                    <div class="card-body">
+                      <form action="javascript:void(0)">
+                        <div class="form-group">
+                          <label for="name">Full Name</label>
+                          <input
+                            matInput
+                            type="text"
+                            class="form-control"
+                            id="name"
+                            name="name"
+                            formControlName="name"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label for="email">Email</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="email"
+                            name="email"
+                            formControlName="email"
+                          />
+                        </div>
+
+                        <div class="form-group">
+                          <label for="position">Postion</label>
+                          <select
+                            class="form-control"
+                            id="position"
+                            name="position"
+                            formControlName="position"
+                          >
+                            <option *ngFor="let item; of" [value]="item">
+                              {{ item }}
+                            </option>
+                          </select>
+                        </div>
+
+                        <div class="form-group">
+                          <label for="address">Adrress</label>
+                          <input
+                            matInput
+                            type="text"
+                            class="form-control"
+                            id="address"
+                            name="address"
+                            formControlName="address"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label for="user">Status Account</label>
+                          <input
+                            matInput
+                            type="text"
+                            class="form-control"
+                            id="user"
+                            name="user"
+                            formControlName="user"
+                          />
+                        </div>
+
+                        <div
+                          class="form-group footer-card d-flex justify-content-between"
+                        >
+                          <button
+                            type="button"
+                            class="btn fs-3 text-white rounded-pill"
+                          >
+                            Clear
+                          </button>
+                          <button
+                            type="button"
+                            class="btn fs-3 text-white rounded-pill"
+                          >
+                            Update
+                          </button>
+                          <button
+                            type="submit"
+                            class="btn fs-3 text-white rounded-pill"
+                          >
+                            Create
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<!-- /.container -->

@@ -1,6 +1,8 @@
 export interface User {
+  nameEmployee: string;
+  postionEmployee: string;
+  id: string;
   email: string;
-  userName: string;
-  password: string;
-  approve: boolean;
+  address: string;
+  user: string;
 }

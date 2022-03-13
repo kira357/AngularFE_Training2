@@ -6,4 +6,5 @@ export interface Employees {
   position: string;
   address: string;
   approve: boolean;
+  status : string
 }

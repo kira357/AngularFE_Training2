@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ApiServiceService } from './Services/api-service.service';
 import { HomeModuleModule } from './Components/home-component/home-module/home-module.module';
 
+import { CookieService } from 'ngx-cookie-service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +30,7 @@ import { HomeModuleModule } from './Components/home-component/home-module/home-m
     BrowserAnimationsModule,
     HomeModuleModule,
   ],
-  providers: [ApiServiceService],
+  providers: [ApiServiceService, CookieService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

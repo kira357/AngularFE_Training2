@@ -12,6 +12,7 @@ import { ApiServiceService } from '@app/Services/api-service.service';
 
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-manage-component',
@@ -22,7 +23,8 @@ export class ManageComponentComponent implements OnInit {
   constructor(
     private service: ApiServiceService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private matSnackBar: MatSnackBar
   ) {}
 
   @ViewChild(MatTable) table: MatTable<Employees>;
@@ -41,6 +43,7 @@ export class ManageComponentComponent implements OnInit {
     address: '',
     approve: false,
     password: '',
+    status: '',
   };
   employee1: Employees[] = [
     {
@@ -51,6 +54,7 @@ export class ManageComponentComponent implements OnInit {
       address: '',
       approve: false,
       password: '',
+      status: '',
     },
   ];
 
@@ -177,6 +181,12 @@ export class ManageComponentComponent implements OnInit {
       console.log(this.infoRegister);
       if (data.ok === 'Success') {
         console.log('check', this.infoRegister);
+        this.matSnackBar.open('Create success', 'Okay!', {
+          duration: 5000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          panelClass: ['snack-style'],
+        });
       }
     });
   };
@@ -190,19 +200,9 @@ export class ManageComponentComponent implements OnInit {
       address: '',
       approve: false,
       password: '',
+      status: '',
     };
   };
-
-  // HandleOnClickRow = (evt) => {
-  //   this.employee = {
-  //     fullname: evt.name,
-  //     username: evt.userName,
-  //     email: evt.email,
-  //     position: evt.position,
-  //     address: '',
-  //     approve: false,
-  //   };
-  // };
 
   newRow: any = {};
   arrayTrue: any[] = [];
@@ -240,6 +240,7 @@ export class ManageComponentComponent implements OnInit {
       address: '',
       approve: false,
       password: '********',
+      status: '',
     };
     console.log('getRow', this.employee);
   };
@@ -250,6 +251,11 @@ export class ManageComponentComponent implements OnInit {
       console.log('result', this.result);
       if (data.ok === 'Success') {
         console.log('check', this.result);
+        this.matSnackBar.open('Approve Success', 'Okay!', {
+          duration: 5000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+        });
         this.table.renderRows();
       }
     });
@@ -261,9 +267,13 @@ export class ManageComponentComponent implements OnInit {
       console.log('result', this.result);
       if (data.ok === 'Success') {
         console.log('check', this.result);
+        this.matSnackBar.open('Delete account Success', 'Okay!', {
+          duration: 5000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+        });
         this.table.renderRows();
       }
-    }
-    );
+    });
   };
 }

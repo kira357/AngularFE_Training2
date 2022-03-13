@@ -1,163 +1,84 @@
-import {
-  Component,
-  OnInit,
-  ElementRef,
-  Renderer2,
-  Input,
-  OnChanges,
-  EventEmitter,
-  Output,
-} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ApiServiceService } from '@app/Services/api-service.service';
-import pq from 'pqgridf';
-import 'pqgridf/localize/pq-localize-en.js';
+
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { Employees } from '@app/Common/Employee';
 
 @Component({
   selector: 'app-dashboards-component',
   templateUrl: './dashboards-component.component.html',
   styleUrls: ['./dashboards-component.component.css'],
 })
-export class DashboardsComponentComponent implements OnInit, OnChanges {
-  grid: pq.gridT.instance;
+export class DashboardsComponentComponent implements OnInit {
   constructor(
-    public el: ElementRef,
-    public renderer: Renderer2,
-    private service: ApiServiceService
+    private service: ApiServiceService,
+    private formBuilder: FormBuilder,
+    private router: Router
   ) {}
-  ngOnChanges(): void {
-    this.CreateGrid();
+  ngOnInit(): void {
+    this.GetAllAccount();
   }
+  @ViewChild(MatTable) table: MatTable<Employees>;
 
-  @Input() dataAccount: any[] = [];
-  @Input() settingOptions: any = {};
-  @Output() dataClick = new EventEmitter<any>();
-  newData: any[] = [];
-  myStyle: any = {
-    pq_rowattr: { style: 'background:red;' },
+  check: any;
+  infoRegister: any[] = [];
+  dataAccount: any[] = [];
+  listPosition: any[] = ['Director', 'Leader', 'Member'];
+  Form: any;
+
+  employee: Employees = {
+    fullname: '',
+    username: '',
+    email: '',
+    position: '',
+    address: '',
+    approve: false,
+    password: '',
+    status: '',
   };
-
-
-  ngOnInit() {
-    console.log(this.settingOptions.columns);
-  }
-
-  // columns1 = [
-
-  //   {
-  //     title: 'Full Name',
-  //     width: this.settingOptions.width,
-  //     dataType: 'string',
-  //     dataIndx: 'name',
-  //     editable: this.settingOptions.editable,
-  //     align: 'center',
-  //   },
-  //   {
-  //     title: 'User Name',
-  //     width: this.settingOptions.width,
-  //     dataType: 'string',
-  //     dataIndx: 'userName',
-  //     editable: this.settingOptions.editable,
-  //     align: 'center',
-  //   },
-  //   {
-  //     title: 'Email',
-  //     width: this.settingOptions.width,
-  //     dataType: 'string',
-  //     dataIndx: 'email',
-  //     editable: this.settingOptions.editable,
-  //     align: 'center',
-  //   },
-  //   {
-  //     title: 'Position',
-  //     width: this.settingOptions.width,
-  //     dataType: 'string',
-  //     dataIndx: 'position',
-  //     editable: this.settingOptions.editable,
-  //     align: 'center',
-  //   },
-  //   {
-  //     title: 'Approved',
-  //     width: this.settingOptions.width,
-  //     dataType: 'bool',
-  //     align: 'center',
-  //     dataIndx: 'approve',
-  //     editor: this.settingOptions.editable,
-  //     type: 'checkbox',
-  //     validations: [{ type: 'nonEmpty', msg: 'Required' }],
-  //   },
-  //   {
-  //     title: 'Options',
-  //     editable: this.settingOptions.editable,
-  //     sortable: false,
-  //     align: 'center',
-  //     render: function (ui) {
-  //       return (
-  //         "<div> <button type='button' class='update_btn btn btn-primary mr-1'>Update</button>" +
-  //         "<button type='button' class='delete_btn btn btn-success'>Detele</button>" +
-  //         '</div>'
-  //       );
-  //     },
-  //     postRender: function (ui) {
-  //       var rowIndx = ui.rowIndx,
-  //         grid = this,
-  //         $cell = grid.getCell(ui);
-
-  //       $cell.find('button').bind('click', function () {
-  //         grid.addClass({ rowIndx: ui.rowIndx, cls: 'pq-row-delete' });
-
-  //         var ans = window.confirm(
-  //           'Are you sure to delete row No ' + (rowIndx + 1) + '?'
-  //         );
-  //         grid.removeClass({ rowIndx: rowIndx, cls: 'pq-row-delete' });
-  //         if (ans) {
-  //           grid.deleteRow({ rowIndx: rowIndx });
-  //         }
-  //       });
-  //     },
-  //   },
-  // ];
-
-  options = {
-    postRenderInterval: -1, //synchronous post render.
-    showTop: false,
-    height: 590,
-    numberCell: {
-      show: false,
+  employee1: Employees[] = [
+    {
+      fullname: '',
+      username: '',
+      email: '',
+      position: '',
+      address: '',
+      approve: false,
+      password: '',
+      status: '',
     },
-    scrollModel: {
-      autoFit: true,
-    },
-    columnTemplate: { width: 200 },
-    colModel: this.settingOptions.columns,
-    dataModel: {
-      data: this.newData,
-    },
-    bootstrap: {
-      on: true,
-      thead: 'table table-striped table-condensed table-bordered ',
-      tbody: 'table table-striped table-condensed table-bordered',
-    },
+  ];
+  
+  displayedColumns: string[] = [];
+  dataSource: any;
+  selection: any;
 
-    rowClick: (evt, ui) => {
-      console.log('row click', ui.rowData);
-      this.GetDataRow(ui.rowData);
-    },
-  };
-  CreateGrid = () => {
-    this.newData = this.dataAccount;
-    if (!this.grid) {
-      this.grid = pq.grid(this.el.nativeElement.children[0], this.options);
-    }
-    if (this.grid) {
-      this.grid.refreshCM(this.settingOptions.columns);
-      this.grid.options.dataModel.data = this.newData;
+  userCreated = this.formBuilder.group({
+    username: '',
+    password: '',
+    email: '',
+    name: '',
+    position: '',
+    approve: false,
+  });
 
-      console.log('check 1 ', this.newData);
-      this.grid.refreshDataAndView();
-    }
-  };
-
-  GetDataRow = (rowData) => {
-    this.dataClick.emit(rowData);
+  GetAllAccount = () => {
+    this.displayedColumns = [
+      'FullName',
+      'UserName',
+      'Email',
+      'Position',
+      'Approve',
+    ];
+    this.service.RequestShowListUSer().subscribe((data: any) => {
+      this.dataAccount = data;
+      this.employee1 = data;
+      console.log('dataAccount', this.employee1);
+      this.dataSource = new MatTableDataSource<Employees>(this.employee1);
+      this.selection = new SelectionModel<Employees>(true, []);
+    });
   };
 }

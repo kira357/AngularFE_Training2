@@ -3,15 +3,16 @@
     <div class="container h-100">
       <div>
         <div class="h-100 custom-card">
-          <div class="card-header text-center">
-            <h2 class="text-white text-custom fw-bold">Register</h2>
+          <div class="card-header text-center baslik">
+            <h2 class="text-white text-custom fw-bold loginbaslik">Register</h2>
           </div>
-          <div class="card-body">
-            <form 
-            (ngSubmit)="onSubmit()"
-            [formGroup]="userLogin"
-            action="javascript:void(0)">
-              <div class="form-group">
+          <div class="card-body arkalogin">
+            <form
+              (ngSubmit)="onSubmit()"
+              [formGroup]="userLogin"
+              action="javascript:void(0)"
+            >
+              <div class="form-group custom-input">
                 <label for="email">Email</label>
                 <input
                   type="text"
@@ -21,7 +22,7 @@
                   formControlName="email"
                 />
               </div>
-              <div class="form-group">
+              <div class="form-group custom-input">
                 <label for="name">Full Name</label>
                 <input
                   matInput
@@ -32,7 +33,7 @@
                   formControlName="name"
                 />
               </div>
-              <div class="form-group">
+              <div class="form-group custom-input">
                 <label for="username">User name</label>
                 <input
                   matInput
@@ -43,7 +44,7 @@
                   formControlName="username"
                 />
               </div>
-              <div class="form-group">
+              <div class="form-group custom-input">
                 <label for="password">password</label>
                 <input
                   matInput
@@ -66,7 +67,7 @@
                   type="submit"
                   class="btn btn-danger fs-3 ml-2 text-white rounded-pill"
                 >
-                   Register 
+                  Register
                 </button>
               </div>
             </form>
