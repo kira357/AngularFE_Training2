@@ -11,7 +11,7 @@ import { LoginComponentComponent } from './Components/login-component/login-comp
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ApiServiceService } from './Services/api-service.service';
 import { HomeModuleModule } from './Components/home-component/home-module/home-module.module';
-
+import { LoginActivateServiceService } from './Services/login-activate-service.service';
 import { CookieService } from 'ngx-cookie-service';
 @NgModule({
   declarations: [
@@ -30,7 +30,7 @@ import { CookieService } from 'ngx-cookie-service';
     BrowserAnimationsModule,
     HomeModuleModule,
   ],
-  providers: [ApiServiceService, CookieService],
+  providers: [ApiServiceService, CookieService, LoginActivateServiceService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

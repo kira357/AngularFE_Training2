@@ -8,26 +8,48 @@ import { LoginComponentComponent } from './Components/login-component/login-comp
 import { RegisterComponentComponent } from './Components/register-component/register-component.component';
 import { MainComponentComponent } from './Components/home-component/main-component/main-component.component';
 import { DashboardsEmployeeComponentComponent } from './Components/home-component/dashboardsEmployee-component/dashboardsEmployee-component.component';
-
+import { LoginActivateServiceService } from './Services/login-activate-service.service';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponentComponent },
   { path: 'register', component: RegisterComponentComponent },
-  { path: 'employee', component: MainComponentComponent },
+  {
+    path: 'employee',
+    component: MainComponentComponent,
+    canActivate: [LoginActivateServiceService],
+  },
   {
     path: 'home',
     component: HomeModuleComponent,
+    canActivate: [LoginActivateServiceService],
     children: [
-      { path: 'dashboards', component: DashboardsComponentComponent },
+      {
+        path: 'dashboards',
+        component: DashboardsComponentComponent,
+       
+      },
       {
         path: 'dashboards_employee',
         component: DashboardsEmployeeComponentComponent,
+       
       },
-      { path: 'manage', component: ManageComponentComponent },
-      { path: 'employee', component: EmployeeComponentComponent },
+      {
+        path: 'manage',
+        component: ManageComponentComponent,
+       
+      },
+      {
+        path: 'employee',
+        component: EmployeeComponentComponent,
+       
+      },
     ],
   },
-  { path: 'createemployee', component: LoginComponentComponent },
+  {
+    path: 'createemployee',
+    component: LoginComponentComponent,
+    canActivate: [LoginActivateServiceService],
+  },
 ];
 
 @NgModule({
