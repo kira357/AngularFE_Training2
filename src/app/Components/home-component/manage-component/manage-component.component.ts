@@ -176,19 +176,29 @@ export class ManageComponentComponent implements OnInit {
   onSubmit = () => {
     this.Form = JSON.stringify(this.userCreated.getRawValue());
     console.log('Form', this.Form);
-    this.service.RequestRegister(this.Form).subscribe((data: any) => {
-      this.infoRegister = data;
-      console.log(this.infoRegister);
-      if (data.ok === 'Success') {
-        console.log('check', this.infoRegister);
-        this.matSnackBar.open('Create success', 'Okay!', {
+    this.service.RequestRegister(this.Form).subscribe(
+      (data: any) => {
+        this.infoRegister = data;
+        console.log(this.infoRegister);
+        if (data.ok === 'Success') {
+          console.log('check', this.infoRegister);
+          this.matSnackBar.open('Create success', 'Okay!', {
+            duration: 5000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass: ['snack-success'],
+          });
+        }
+      },
+      (err) => {
+        this.matSnackBar.open('Create Account fail', 'Okay!', {
           duration: 5000,
           horizontalPosition: 'center',
           verticalPosition: 'top',
-          panelClass: ['snack-style'],
+          panelClass: ['snack-fails'],
         });
       }
-    });
+    );
   };
 
   onReset = () => {
@@ -246,34 +256,60 @@ export class ManageComponentComponent implements OnInit {
   };
 
   updateData = () => {
-    this.service.RequestApprove(this.arrayApprove).subscribe((data: any) => {
-      this.result = data;
-      console.log('result', this.result);
-      if (data.ok === 'Success') {
-        console.log('check', this.result);
-        this.matSnackBar.open('Approve Success', 'Okay!', {
+    this.service.RequestApprove(this.arrayApprove).subscribe(
+      (data: any) => {
+        this.result = data;
+        console.log('result', this.result);
+        if (data.ok === 'Success') {
+          console.log('check', this.result);
+          this.matSnackBar.open('Approve Success', 'Okay!', {
+            duration: 5000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass: ['snack-success'],
+          });
+          this.table.renderRows();
+        }
+      },
+      (error) => {
+        this.matSnackBar.open('Update Account fail', 'Okay!', {
           duration: 5000,
           horizontalPosition: 'center',
           verticalPosition: 'top',
+          panelClass: ['snack-fails'],
         });
-        this.table.renderRows();
       }
-    });
+    );
   };
 
   removeData = () => {
-    this.service.RequestDetele(this.arrayApprove).subscribe((data: any) => {
-      this.result = data;
-      console.log('result', this.result);
-      if (data.ok === 'Success') {
-        console.log('check', this.result);
-        this.matSnackBar.open('Delete account Success', 'Okay!', {
+    this.service.RequestDetele(this.arrayApprove).subscribe(
+      (data: any) => {
+        this.result = data;
+        console.log('result', this.result);
+        if (data.ok === 'Success') {
+          console.log('check', this.result);
+          this.matSnackBar.open('Delete account Success', 'Okay!', {
+            duration: 5000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass: ['snack-success'],
+          });
+          this.table.renderRows();
+        }
+      },
+      (err) => {
+        this.matSnackBar.open('Delete Employee fail', 'Okay!', {
           duration: 5000,
           horizontalPosition: 'center',
           verticalPosition: 'top',
+          panelClass: ['snack-fails'],
         });
-        this.table.renderRows();
       }
-    });
+    );
+  };
+  applyFilter = (evt) => {
+    const filterValue = (evt.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   };
 }

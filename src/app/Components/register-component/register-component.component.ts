@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { NgForm, FormGroup, FormBuilder } from '@angular/forms';
 import { ApiServiceService } from './../../Services/api-service.service';
@@ -17,7 +16,7 @@ export class RegisterComponentComponent implements OnInit {
     private router: Router,
     private matSnackBar: MatSnackBar
   ) {}
-  
+
   infoRegister: any[] = [];
 
   userLogin = this.formBuilder.group({
@@ -25,7 +24,7 @@ export class RegisterComponentComponent implements OnInit {
     password: '',
     email: '',
     name: '',
-    position: 'memeber',
+    position: 'Member',
     idemployee: Guid.newGuid().toString(),
     approve: false,
   });
@@ -36,19 +35,29 @@ export class RegisterComponentComponent implements OnInit {
 
     console.log(this.formUser);
 
-    this.service.RequestRegister(this.formUser).subscribe((data: any) => {
-      this.infoRegister = data;
-      console.log(this.infoRegister);
-      if (data.ok === 'Success') {
-        this.matSnackBar.open('Create success', 'Okay!', {
+    this.service.RequestRegister(this.formUser).subscribe(
+      (data: any) => {
+        this.infoRegister = data;
+        console.log(this.infoRegister);
+        if (data.ok === 'Success') {
+          this.matSnackBar.open('Create success', 'Okay!', {
+            duration: 5000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass: ['snack-success'],
+          });
+          this.router.navigate(['/login']);
+        }
+      },
+      (error) => {
+        this.matSnackBar.open('Delete Employee fail', 'Okay!', {
           duration: 5000,
           horizontalPosition: 'center',
           verticalPosition: 'top',
-          panelClass: ["snack-style"],
+          panelClass: ['snack-fails'],
         });
-        this.router.navigate(['/login']);
       }
-    });
+    );
   }
 
   ngOnInit() {}

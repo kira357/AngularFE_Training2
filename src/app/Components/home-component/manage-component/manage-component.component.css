@@ -4,7 +4,17 @@
 table {
   width: 100%;
 }
-::ng-deep .snack-style {
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+::ng-deep .snack-fails {
+  background-color: red;
+  color: white;
+}
+
+::ng-deep .snack-success {
   background-color: rgb(0, 218, 0);
   color: white;
 }

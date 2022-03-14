@@ -1,4 +1,4 @@
-import { retry } from 'rxjs';
+import { Observable, retry } from 'rxjs';
 
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -59,10 +59,11 @@ export class ApiServiceService {
     });
   };
 
-  RequestShowInformation = (User: any) => {
-    return this.http.post(`${this.rootURL}/get_information`, {
-      headers: this.headers,
-      body: User,
-    });
+  RequestShowInformation = async (username: string) => {
+    return this.http.post(
+      `${this.rootURL}/get_information`,
+      {username} ,
+      {headers: this.headers}
+    );
   };
 }

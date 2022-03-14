@@ -28,12 +28,10 @@ export class LoginComponentComponent implements OnInit {
   onSubmit = () => {
     console.log(this.userLogin.getRawValue());
     this.userLogin.getRawValue();
-    this.service
-      .RequestLogin(this.userLogin.getRawValue())
-      .subscribe((data: any) => {
+    this.service.RequestLogin(this.userLogin.getRawValue()).subscribe(
+      (data: any) => {
         console.log(data); // {userName: "admin", password: "admin"}
         if (data.ok === 'Admin') {
-          this.router.navigate(['/home'], { state: data.ok });
           this.cookieService.set('user', data.ok);
           this.cookieService.set(
             'username',
@@ -42,35 +40,53 @@ export class LoginComponentComponent implements OnInit {
           this.matSnackBar.open('login with permission: admin ', 'Okay!', {
             duration: 5000,
             horizontalPosition: 'center',
-            panelClass: ["snack-style"],
+            panelClass: ['snack-success'],
             verticalPosition: 'top',
           });
+          this.router.navigate(['/home'], { state: data.ok });
         }
-        if (data.ok === 'Member' && data.active) {
-          this.router.navigate(['/employee'], { state: data.ok });
-          this.cookieService.set('user', data.ok);
-          this.cookieService.set(
-            'username',
-            this.userLogin.getRawValue().userName
-          );
-          console.log('check 2', data.ok);
-          this.matSnackBar.open('login success', 'Okay!', {
-            duration: 5000,
-            horizontalPosition: 'center',
-            verticalPosition: 'top',
-          });
-        } else if (!data.active) {
-          this.matSnackBar.open(
-            'Login fail, you dont have permission to login',
-            'Okay!',
-            {
+        if (data.ok === 'Member') {
+          if (data.active) {
+            this.cookieService.set('user', data.ok);
+            this.cookieService.set(
+              'username',
+              this.userLogin.getRawValue().userName
+            );
+            console.log('check 2', data.ok);
+            this.matSnackBar.open('login success', 'Okay!', {
+              duration: 5000,
+              horizontalPosition: 'center',
+              panelClass: ['snack-success'],
+              verticalPosition: 'top',
+            });
+            this.router.navigate(['/employee'], { state: data.ok });
+          } else {
+            this.matSnackBar.open('You need to allow permission', 'Okay!', {
               duration: 5000,
               horizontalPosition: 'center',
               verticalPosition: 'top',
-            }
-          );
+              panelClass: ['snack-fails'],
+            });
+          }
         }
-      });
+        if (data.fail === 'user name is wrong ') {
+          this.matSnackBar.open('User name is wrong', 'Okay!', {
+            duration: 5000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass: ['snack-fails'],
+          });
+        }
+      },
+      (error) => {
+        this.matSnackBar.open('Login fail', 'Okay!', {
+          duration: 5000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          panelClass: ['snack-fails'],
+        });
+      }
+    );
   };
   ngOnInit() {}
 }

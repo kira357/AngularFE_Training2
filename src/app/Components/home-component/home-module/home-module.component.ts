@@ -1,5 +1,7 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 import { ApiServiceService } from '../../../Services/api-service.service';
 @Component({
   selector: 'app-home-module',
@@ -10,20 +12,18 @@ export class HomeModuleComponent implements OnInit {
   constructor(
     public service: ApiServiceService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private cookieService: CookieService,
+    private matSnackBar: MatSnackBar
   ) {}
 
   check: any;
   ngOnInit() {}
 
   handleLogout = () => {
-    if (localStorage.getItem('Admin')) {
-      localStorage.removeItem('Admin');
-      this.router.navigate(['/login']);
-    }
-    if (localStorage.getItem('Member')) {
-      localStorage.removeItem('Member');
-      this.router.navigate(['/login']);
+    if (this.cookieService.check('user')) {
+      this.cookieService.delete('user');
+      this.cookieService.delete('username');
     }
   };
 }

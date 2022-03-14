@@ -103,7 +103,7 @@ export class EmployeeComponentComponent implements OnInit {
           duration: 5000,
           horizontalPosition: 'center',
           verticalPosition: 'top',
-          panelClass: ["snack-style"],
+          panelClass: ["snack-success"],
         });
       }
     });
@@ -164,7 +164,7 @@ export class EmployeeComponentComponent implements OnInit {
           duration: 5000,
           horizontalPosition: 'center',
           verticalPosition: 'top',
-          panelClass: ["snack-style"],
+          panelClass: ["snack-success"],
         });
         this.table.renderRows();
       }
@@ -172,6 +172,7 @@ export class EmployeeComponentComponent implements OnInit {
   };
 
   removeData = () => {
+    console.log('arrayTrue', this.arrayTrue);
     this.service
       .RequestDeteleEmployee(this.arrayTrue)
       .subscribe((data: any) => {
@@ -179,8 +180,21 @@ export class EmployeeComponentComponent implements OnInit {
         console.log('result', this.result);
         if (data.ok === 'Success') {
           console.log('check', this.result);
+          this.matSnackBar.open('Delete Employee success', 'Okay!', {
+            duration: 5000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass: ["snack-success"],
+          });
           this.table.renderRows();
         }
+      }, (err) => { 
+        this.matSnackBar.open('Delete Employee fail', 'Okay!', {
+          duration: 5000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          panelClass: ["snack-fails"],
+        });
       });
   };
 }
