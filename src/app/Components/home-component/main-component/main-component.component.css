@@ -129,3 +129,16 @@ li > a {
   font-style: 20px;
   font-weight: 500;
 }
+.bg-light {
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.custom-title {
+  padding: 20px 0 0 0;
+  margin-top: 10px;
+  font-size: 30px;
+  font-weight: 400;
+}
+.custom-span {
+  font-size: 15px;
+  font-weight: 400;
+}
