@@ -1,0 +1,83 @@
+<header
+  class="navbar navbar-dark position-sticky custom-bg flex-md-nowrap p-0 shadow"
+>
+  <!-- <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Company name</a> -->
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 p-3 text-center mx-0" href="#"
+    >Jobs<Span>4</Span>You</a
+  >
+  <button
+    class="navbar-toggler position-absolute d-md-none collapsed"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#sidebarMenu"
+    aria-controls="sidebarMenu"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <input
+    class="form-control form-control-dark w-100"
+    type="text"
+    placeholder="Search"
+    aria-label="Search"
+  />
+  <div class="navbar-nav">
+    <div class="nav-item text-nowrap">
+      <a [hidden]="isHiddenText" class="custom-name-user">
+        Hi: {{ nameUser }}</a
+      >
+      <button
+        class="btn custom-btn my-2 my-sm-0 mx-1"
+        type="submit"
+        [hidden]="isHiddenLogin"
+      >
+        Login
+      </button>
+      <button
+        class="btn custom-btn my-2 my-sm-0"
+        type="submit"
+        [hidden]="isHiddenLogout"
+        (click)="Logout()"
+      >
+        Log out
+      </button>
+    </div>
+  </div>
+</header>
+<div class="container-fluid h-100">
+  <div class="row h-100">
+    <nav
+      id="sidebarMenu"
+      class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse p-0"
+    >
+      <div class="position-sticky">
+        <ul class="nav flex-column sidebar-navigation">
+          <li class="header text-white nav-item">Navigation</li>
+          <li class="p-2 mt-2 nav-item">
+            <a [routerLink]="['/employee/dashboards']" class="nav-link">
+              <i class="fa fa-home" aria-hidden="true"></i> Dashboard
+            </a>
+          </li>
+          <li class="p-2 mt-2 nav-item">
+            <a [routerLink]="['/employee/managment']" class="nav-link">
+              <i class="fa fa-tachometer" aria-hidden="true"></i> Managment Jobs
+            </a>
+          </li>
+          <li class="p-2 mt-2 nav-item">
+            <a [routerLink]="['/employee/information']" class="nav-link">
+              <i class="fa fa-tachometer" aria-hidden="true"></i> User
+              Information
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div class="content-container">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </div>
+</div>

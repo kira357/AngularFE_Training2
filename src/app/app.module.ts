@@ -1,4 +1,4 @@
-import { MainComponentComponent } from './Components/home-component/main-component/main-component.component';
+import { MainComponent } from './Components/home-component/main-component/main/main.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -13,10 +13,15 @@ import { ApiServiceService } from './Services/api-service.service';
 import { HomeModuleModule } from './Components/home-component/home-module/home-module.module';
 import { LoginActivateServiceService } from './Services/login-activate-service.service';
 import { CookieService } from 'ngx-cookie-service';
+
+import { MatTableModule } from '@angular/material/table';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MainModule } from './Components/home-component/main-component/main/main.module';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponentComponent,
     LoginComponentComponent,
     RegisterComponentComponent,
   ],
@@ -29,6 +34,10 @@ import { CookieService } from 'ngx-cookie-service';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     HomeModuleModule,
+    MainModule,
+    MatTableModule,
+    MatSlideToggleModule,
+    CKEditorModule,
   ],
   providers: [ApiServiceService, CookieService, LoginActivateServiceService],
   bootstrap: [AppComponent],

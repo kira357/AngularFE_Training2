@@ -12,19 +12,19 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { User } from '@app/Common/User';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
 @Component({
-  selector: 'app-employee-component',
-  templateUrl: './employee-component.component.html',
-  styleUrls: ['./employee-component.component.css'],
+  selector: 'app-employee',
+  templateUrl: './employee.component.html',
+  styleUrls: ['./employee.component.css'],
 })
-export class EmployeeComponentComponent implements OnInit {
+export class EmployeeComponent implements OnInit {
   constructor(
     private service: ApiServiceService,
     private formBuilder: FormBuilder,
     private router: Router,
     private matSnackBar: MatSnackBar
   ) {}
-
   @ViewChild(MatTable) table: MatTable<User>;
 
   user: User = {
@@ -103,7 +103,7 @@ export class EmployeeComponentComponent implements OnInit {
           duration: 5000,
           horizontalPosition: 'center',
           verticalPosition: 'top',
-          panelClass: ["snack-success"],
+          panelClass: ['snack-success'],
         });
       }
     });
@@ -164,7 +164,7 @@ export class EmployeeComponentComponent implements OnInit {
           duration: 5000,
           horizontalPosition: 'center',
           verticalPosition: 'top',
-          panelClass: ["snack-success"],
+          panelClass: ['snack-success'],
         });
         this.table.renderRows();
       }
@@ -173,9 +173,8 @@ export class EmployeeComponentComponent implements OnInit {
 
   removeData = () => {
     console.log('arrayTrue', this.arrayTrue);
-    this.service
-      .RequestDeteleEmployee(this.arrayTrue)
-      .subscribe((data: any) => {
+    this.service.RequestDeteleEmployee(this.arrayTrue).subscribe(
+      (data: any) => {
         this.result = data;
         console.log('result', this.result);
         if (data.ok === 'Success') {
@@ -184,17 +183,19 @@ export class EmployeeComponentComponent implements OnInit {
             duration: 5000,
             horizontalPosition: 'center',
             verticalPosition: 'top',
-            panelClass: ["snack-success"],
+            panelClass: ['snack-success'],
           });
           this.table.renderRows();
         }
-      }, (err) => { 
+      },
+      (err) => {
         this.matSnackBar.open('Delete Employee fail', 'Okay!', {
           duration: 5000,
           horizontalPosition: 'center',
           verticalPosition: 'top',
-          panelClass: ["snack-fails"],
+          panelClass: ['snack-fails'],
         });
-      });
+      }
+    );
   };
 }

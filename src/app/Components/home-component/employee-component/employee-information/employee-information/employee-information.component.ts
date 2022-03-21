@@ -1,27 +1,19 @@
-import { MatSnackBar } from '@angular/material/snack-bar';
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { ApiServiceService } from '@app/Services/api-service.service';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { SelectionModel } from '@angular/cdk/collections';
-import { User } from '@app/Common/User';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { User } from '@app/Common/User';
+
 @Component({
-  selector: 'app-main-component',
-  templateUrl: './main-component.component.html',
-  styleUrls: ['./main-component.component.css'],
+  selector: 'app-employee-information',
+  templateUrl: './employee-information.component.html',
+  styleUrls: ['./employee-information.component.css'],
 })
-export class MainComponentComponent implements OnInit {
+export class EmployeeInformationComponent implements OnInit {
   constructor(
     private router: Router,
-    private activatedRoute: ActivatedRoute,
     private service: ApiServiceService,
     private formBuilder: FormBuilder,
     private cookieService: CookieService,
@@ -47,9 +39,7 @@ export class MainComponentComponent implements OnInit {
     },
   ];
   dataAccount: any[] = [];
-  listPosition: any[] = ['Director', 'Leader', 'Member'];
   Form: any;
-  dataSource: any;
   statusAccount = ['Active', 'Inactive'];
   status: any;
   private cookieValue = 'UNKNOWN';
@@ -60,6 +50,10 @@ export class MainComponentComponent implements OnInit {
   nameUser: any;
   result: any;
 
+  ngOnInit() {
+    this.GetAllEmployee();
+  }
+
   employeeCreated = this.formBuilder.group({
     name: '',
     position: '',
@@ -68,11 +62,6 @@ export class MainComponentComponent implements OnInit {
     address: '',
     user: '',
   });
-
-  ngOnInit() {
-    this.GetAllEmployee();
-  }
-
   GetAllEmployee = async () => {
     this.cookieValue = this.cookieService.get('username');
     if (this.cookieValue !== null) {
@@ -144,11 +133,5 @@ export class MainComponentComponent implements OnInit {
       address: '',
       user: '',
     };
-  };
-
-  Logout = () => {
-    this.cookieService.delete('username');
-    this.cookieService.delete('user');
-    this.router.navigate(['/login']);
   };
 }

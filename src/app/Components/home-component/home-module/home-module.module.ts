@@ -1,3 +1,4 @@
+import { EmployeeComponent } from './../employee-component/employee/employee.component';
 import { DashboardsEmployeeComponentComponent } from './../dashboardsEmployee-component/dashboardsEmployee-component.component';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -6,7 +7,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeModuleComponent } from './home-module.component';
 import { ManageComponentComponent } from '../manage-component/manage-component.component';
 import { DashboardsComponentComponent } from '../dashboards-component/dashboards-component.component';
-import { EmployeeComponentComponent } from '../employee-component/employee-component.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -26,17 +26,17 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     HomeModuleComponent,
     ManageComponentComponent,
     DashboardsComponentComponent,
-    EmployeeComponentComponent,
     DashboardsEmployeeComponentComponent,
     ManageComponentComponent,
+    EmployeeComponent,
   ],
   exports: [
     HomeModuleComponent,
     ManageComponentComponent,
     DashboardsComponentComponent,
-    EmployeeComponentComponent,
     DashboardsEmployeeComponentComponent,
     ManageComponentComponent,
+    EmployeeComponent,
   ],
 })
 export class HomeModuleModule {}

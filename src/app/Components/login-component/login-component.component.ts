@@ -77,6 +77,14 @@ export class LoginComponentComponent implements OnInit {
             panelClass: ['snack-fails'],
           });
         }
+        if (this.userLogin.value.userName === '' && this.userLogin.value.password === '') {
+          this.matSnackBar.open('User name or password is empty', 'Okay!', {
+            duration: 5000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass: ['snack-fails'],
+          });
+        }
       },
       (error) => {
         this.matSnackBar.open('Login fail', 'Okay!', {
