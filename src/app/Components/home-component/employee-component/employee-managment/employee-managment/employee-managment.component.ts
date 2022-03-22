@@ -91,7 +91,6 @@ export class EmployeeManagmentComponent implements OnInit {
   displayedColumns: string[] = [];
   dataSource: any;
   selection: any;
-  statusAccount = ['Active', 'Inactive'];
   status: any;
 
   employeeCreated = this.formBuilder.group({
@@ -105,7 +104,7 @@ export class EmployeeManagmentComponent implements OnInit {
 
   editor = ClassicEditor;
   ngOnInit() {
-    this.GetAllEmployee();
+    // this.GetAllEmployee();
   }
 
   GetAllEmployee = async () => {
@@ -130,22 +129,27 @@ export class EmployeeManagmentComponent implements OnInit {
       this.selection = new SelectionModel<User>(true, []);
     });
   };
+
+  newForm : any
   onSubmit = () => {
-    this.Form = JSON.stringify(this.employeeCreated.getRawValue());
-    console.log('Form', this.Form);
-    this.service.RequestCreateEmployee(this.Form).subscribe((data: any) => {
-      this.infoRegister = data;
-      console.log(this.infoRegister);
-      if (data.ok === 'Success') {
-        console.log('check', this.infoRegister);
-        this.matSnackBar.open('Create Employee success', 'Okay!', {
-          duration: 5000,
-          horizontalPosition: 'center',
-          verticalPosition: 'top',
-          panelClass: ['snack-success'],
-        });
-      }
-    });
+    this.newForm = this.employeeCreated.getRawValue();
+    this.newForm = Object.assign(this.newForm, { user: this.status });
+
+    this.Form = JSON.stringify(this.newForm);
+    console.log('Form', this.newForm);
+    // this.service.RequestCreateEmployee(this.Form).subscribe((data: any) => {
+    //   this.infoRegister = data;
+    //   console.log(this.infoRegister);
+    //   if (data.ok === 'Success') {
+    //     console.log('check', this.infoRegister);
+    //     this.matSnackBar.open('Create Employee success', 'Okay!', {
+    //       duration: 5000,
+    //       horizontalPosition: 'center',
+    //       verticalPosition: 'top',
+    //       panelClass: ['snack-success'],
+    //     });
+    //   }
+    // });
   };
 
   onReset = () => {
@@ -238,6 +242,7 @@ export class EmployeeManagmentComponent implements OnInit {
     );
   };
   onChange = (evt) => {
+    this.status = evt.editor.getData();
     console.log('status', evt.editor.getData());
   };
 }

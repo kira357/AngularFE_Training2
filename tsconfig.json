@@ -16,7 +16,8 @@
     "paths": {
       "@app/*": ["src/app/*"],
       "@env/*": ["src/environments/*"]
-    }
+    },
+    "importHelpers": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

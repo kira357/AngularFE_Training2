@@ -10,7 +10,10 @@ import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { EmployeeManagmentComponent } from './employee-managment.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
-
+import { EmployeeManagmentJobsComponent } from '../../employee-managment-jobs/employee-managment-jobs.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   imports: [
@@ -24,7 +27,11 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     BrowserAnimationsModule,
     MatCheckboxModule,
     CKEditorModule,
+    MatSlideToggleModule,
+    MatSelectModule,
+    MatFormFieldModule,
   ],
-  declarations: [EmployeeManagmentComponent],
+  declarations: [EmployeeManagmentComponent, EmployeeManagmentJobsComponent],
+  exports: [EmployeeManagmentComponent, EmployeeManagmentJobsComponent],
 })
 export class EmployeeManagmentModule {}

@@ -12,6 +12,7 @@ import { MainComponent } from './Components/home-component/main-component/main/m
 import { EmployeeDashboardsComponent } from './Components/home-component/employee-component/employee-dashboards/employee-dashboards/employee-dashboards.component';
 import { EmployeeInformationComponent } from './Components/home-component/employee-component/employee-information/employee-information/employee-information.component';
 import { EmployeeComponent } from './Components/home-component/employee-component/employee/employee.component';
+import { EmployeeManagmentJobsComponent } from './Components/home-component/employee-component/employee-managment-jobs/employee-managment-jobs.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -23,7 +24,9 @@ const routes: Routes = [
     canActivate: [LoginActivateServiceService],
     children: [
       { path: 'dashboards', component: EmployeeDashboardsComponent },
-      { path: 'managment', component: EmployeeManagmentComponent },
+      { path: 'managment-company', component: EmployeeManagmentComponent },
+      { path: 'managment-jobs', component: EmployeeManagmentJobsComponent },
+
       { path: 'information', component: EmployeeInformationComponent },
     ],
   },
