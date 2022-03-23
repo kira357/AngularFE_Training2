@@ -13,6 +13,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { EmployeeDashboardsModule } from '../../employee-component/employee-dashboards/employee-dashboards/employee-dashboards.module';
 import { EmployeeManagmentJobsComponent } from '../../employee-component/employee-managment-jobs/employee-managment-jobs.component';
+import { MatChipsModule } from '@angular/material/chips';
 @NgModule({
   imports: [
     CommonModule,
@@ -23,6 +24,7 @@ import { EmployeeManagmentJobsComponent } from '../../employee-component/employe
     MatSlideToggleModule,
     FormsModule,
     HttpClientModule,
+    MatChipsModule,
   ],
   exports: [MainComponent],
   declarations: [MainComponent, EmployeeDashboardsComponent],

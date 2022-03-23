@@ -18,7 +18,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MainModule } from './Components/home-component/main-component/main/main.module';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
-
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,6 +38,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     MatTableModule,
     MatSlideToggleModule,
     CKEditorModule,
+    NgMultiSelectDropDownModule.forRoot(),
   ],
   providers: [ApiServiceService, CookieService, LoginActivateServiceService],
   bootstrap: [AppComponent],

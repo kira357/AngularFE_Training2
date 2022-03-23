@@ -76,6 +76,10 @@ export class MainComponent implements OnInit {
         (data: any) => {
           this.dataAccount = data;
           this.user1 = data;
+          this.cookieService.set(
+            'id',
+            this.user1[0].id
+          );
           console.log('dataEmployee', this.user1);
         }
       );

@@ -1,3 +1,4 @@
+import { Company } from './../../../../../Common/Company';
 import {
   Component,
   OnInit,
@@ -13,15 +14,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { User } from '@app/Common/User';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-
-export interface PeriodicElement {
-  nameCompany: string;
-  type: string;
-  address: string;
-  fromDay: string;
-  toDay: string;
-  choose_img: string;
-}
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-employee-managment',
@@ -33,10 +26,11 @@ export class EmployeeManagmentComponent implements OnInit {
     private service: ApiServiceService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private matSnackBar: MatSnackBar
+    private matSnackBar: MatSnackBar,
+    private cookieService: CookieService
   ) {}
   @ViewChild(MatTable) table: MatTable<User>;
-
+  defaultImageSrc = '/assets/image/default-image.png';
   user: User = {
     nameEmployee: '',
     postionEmployee: '',
@@ -55,17 +49,18 @@ export class EmployeeManagmentComponent implements OnInit {
       user: '',
     },
   ];
-  user2: PeriodicElement = {
-    nameCompany: '',
+  user2: Company = {
+    id: '',
+    name: '',
     type: '',
     address: '',
-    fromDay: '',
-    toDay: '',
-    choose_img: '',
+    dateWork: '',
+    logo: '',
+    imageSrc: '',
   };
 
   check: any;
-  infoRegister: any[] = [];
+  infoCreate: any[] = [];
   dataAccount: any[] = [];
   listFromDay: any[] = [
     'mondays',
@@ -91,65 +86,116 @@ export class EmployeeManagmentComponent implements OnInit {
   displayedColumns: string[] = [];
   dataSource: any;
   selection: any;
-  status: any;
-
-  employeeCreated = this.formBuilder.group({
-    nameCompany: '',
-    type: '',
-    address: '',
-    fromDay: '',
-    toDay: '',
-    choose_img: '',
-  });
+  descriptions: any;
 
   editor = ClassicEditor;
   ngOnInit() {
     // this.GetAllEmployee();
   }
 
-  GetAllEmployee = async () => {
-    this.displayedColumns = [
-      'nameEmployee',
-      'email',
-      'address',
-      'postionEmployee',
-      'user',
-      'option',
-    ];
-    this.service.RequestShowListEmployee().subscribe((data: any) => {
-      this.dataAccount = data;
-      this.user1 = data;
-      console.log('dataEmployee', this.user1);
-      this.user1.map((x) =>
-        x.user === null ? (x.user = 'No account') : (x.user = 'Has account')
-      );
-      console.log('acc', this.user1);
+  // GetAllEmployee = async () => {
+  //   this.displayedColumns = [
+  //     'nameEmployee',
+  //     'email',
+  //     'address',
+  //     'postionEmployee',
+  //     'user',
+  //     'option',
+  //   ];
+  //   this.service.RequestShowListEmployee().subscribe((data: any) => {
+  //     this.dataAccount = data;
+  //     this.user1 = data;
+  //     console.log('dataEmployee', this.user1);
+  //     this.user1.map((x) =>
+  //       x.user === null ? (x.user = 'No account') : (x.user = 'Has account')
+  //     );
+  //     console.log('acc', this.user1);
 
-      this.dataSource = new MatTableDataSource<User>(this.user1);
-      this.selection = new SelectionModel<User>(true, []);
-    });
+  //     this.dataSource = new MatTableDataSource<User>(this.user1);
+  //     this.selection = new SelectionModel<User>(true, []);
+  //   });
+  // };
+
+  newForm: any;
+  combDate: any;
+  cookieValue: string;
+  imageFile: { link: any; file: any; name: string };
+  files: any[] = [];
+  handleChange = (evt) => {
+    if (evt.target.files && evt.target.files[0]) {
+      this.files = evt.target.files;
+      let file1 = <File>evt.target.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file1);
+      reader.onload = (e) => {
+        this.imageFile = {
+          link: reader.result,
+          file: this.files,
+          name: evt.srcElement.files[0].name,
+        };
+        console.log('link: ', this.imageFile.file);
+      };
+    } else {
+      this.imageFile = {
+        link: this.defaultImageSrc,
+        file: null,
+        name: '',
+      };
+    }
   };
-
-  newForm : any
-  onSubmit = () => {
+  data: Company = {
+    id: '',
+    name: '',
+    type: '',
+    address: '',
+    dateWork: '',
+    logo: '',
+    imageSrc: '',
+  };
+  employeeCreated = this.formBuilder.group({
+    name: '',
+    type: '',
+    address: '',
+    fromDay: '',
+    toDay: '',
+    imageFile: '',
+  });
+  formData = new FormData();
+  onSubmit = (data) => {
     this.newForm = this.employeeCreated.getRawValue();
-    this.newForm = Object.assign(this.newForm, { user: this.status });
+    this.combDate = `${this.newForm.fromDay}-${this.newForm.toDay}`;
+    this.cookieValue = this.cookieService.get('id');
 
+    for (const file of this.files) {
+      this.formData.append('name', data.name);
+      this.formData.append('imageFile', file, file.name);
+      this.formData.append('type', data.type);
+      this.formData.append('address', data.address);
+      this.formData.append('dateWork', this.combDate);
+      this.formData.append('idEmployee', this.cookieValue);
+      this.formData.append('descriptions', this.descriptions);
+    }
+
+    this.newForm = Object.assign(this.newForm, {
+      descriptions: this.descriptions,
+      dateWork: this.combDate,
+      idUser: this.cookieValue,
+    });
     this.Form = JSON.stringify(this.newForm);
-    console.log('Form', this.newForm);
-    // this.service.RequestCreateEmployee(this.Form).subscribe((data: any) => {
-    //   this.infoRegister = data;
-    //   console.log(this.infoRegister);
-    //   if (data.ok === 'Success') {
-    //     console.log('check', this.infoRegister);
-    //     this.matSnackBar.open('Create Employee success', 'Okay!', {
-    //       duration: 5000,
-    //       horizontalPosition: 'center',
-    //       verticalPosition: 'top',
-    //       panelClass: ['snack-success'],
-    //     });
-    //   }
-    // });
+    console.log('Form', this.formData);
+
+    this.service.RequestCreateCompany(this.formData).subscribe((data: any) => {
+      this.infoCreate = data;
+      if (data.ok === 'Success') {
+        console.log('check', this.infoCreate);
+        this.matSnackBar.open('Create Employee success', 'Okay!', {
+          duration: 5000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          panelClass: ['snack-success'],
+        });
+      }
+    });
   };
 
   onReset = () => {
@@ -194,7 +240,6 @@ export class EmployeeManagmentComponent implements OnInit {
     };
     console.log('getRow', this.user);
   };
-
   onUpdate = () => {
     this.Form = JSON.stringify(this.employeeCreated.getRawValue());
     console.log('Form', this.Form);
@@ -213,7 +258,6 @@ export class EmployeeManagmentComponent implements OnInit {
       }
     });
   };
-
   removeData = () => {
     console.log('arrayTrue', this.arrayTrue);
     this.service.RequestDeteleEmployee(this.arrayTrue).subscribe(
@@ -242,7 +286,7 @@ export class EmployeeManagmentComponent implements OnInit {
     );
   };
   onChange = (evt) => {
-    this.status = evt.editor.getData();
-    console.log('status', evt.editor.getData());
+    this.descriptions = evt.editor.getData();
+    console.log('descriptions', evt.editor.getData());
   };
 }

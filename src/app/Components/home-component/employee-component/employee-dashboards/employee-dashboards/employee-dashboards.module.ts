@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeDashboardsComponent } from './employee-dashboards.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
+    MatChipsModule,
   ],
   declarations: [EmployeeDashboardsComponent],
   exports: [EmployeeDashboardsComponent],

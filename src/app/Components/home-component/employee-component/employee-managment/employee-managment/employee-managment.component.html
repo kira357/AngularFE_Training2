@@ -11,35 +11,49 @@
             <div class="main">
               <div class="h-100 w-100 custom-card">
                 <div class="card-header text-center">
-                  <h2 class="text-white text-custom fw-bold">Add new company</h2>
+                  <h2 class="text-white text-custom fw-bold">
+                    Add new company
+                  </h2>
                 </div>
                 <div class="card-body">
                   <form
-                    (ngSubmit)="onSubmit()"
                     [formGroup]="employeeCreated"
+                    (ngSubmit)="onSubmit(employeeCreated.value)"
+                    enctype="multipart/form-data"
                     action="javascript:void(0)"
                   >
                     <div class="row">
                       <div class="col-md-4 text-center">
                         <img
                           class="custom-img"
-                          src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-                          name="choose_img"
+                          id="blah"
+                          [src]="imageFile ? imageFile.link : defaultImageSrc"
+                          alt="your image"
+                        />
+                        <input
+                          type="file"
+                          class="my-3"
+                          accept="image/*"
+                          name="imageFile"
+                          id="imageFile"
+                          formControlName="imageFile"
+                          (change)="handleChange($event)"
+                          [(ngModel)]="data.logo"
                         />
                       </div>
 
                       <div class="col-md-8">
                         <div class="form-group">
-                          <label for="nameCompany">Name company</label>
+                          <label for="name">Name company</label>
                           <input
                             matInput
                             type="text"
                             class="form-control"
-                            id="nameCompany"
-                            name="nameCompany"
-                            formControlName="nameCompany"
-                            [value]="user2.nameCompany"
-                            [(ngModel)]="user2.nameCompany"
+                            id="name"
+                            name="name"
+                            formControlName="name"
+                            [value]="data.name"
+                            [(ngModel)]="data.name"
                           />
                         </div>
 
@@ -50,7 +64,7 @@
                             id="type"
                             name="type"
                             formControlName="type"
-                            [value]="user2.type"
+                            [value]="data.type"
                           >
                             <option
                               *ngFor="let item of listType"
@@ -69,8 +83,8 @@
                             id="address"
                             name="address"
                             formControlName="address"
-                            [value]="user2.address"
-                            [(ngModel)]="user2.address"
+                            [value]="data.address"
+                            [(ngModel)]="data.address"
                           />
                         </div>
 
@@ -82,7 +96,6 @@
                               id="fromDay"
                               name="fromDay"
                               formControlName="fromDay"
-                              [value]="user2.fromDay"
                             >
                               <option
                                 *ngFor="let item of listFromDay"
@@ -100,7 +113,6 @@
                               id="toDay"
                               name="toDay"
                               formControlName="toDay"
-                              [value]="user2.toDay"
                             >
                               <option
                                 *ngFor="let item of listToDay"

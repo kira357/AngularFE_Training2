@@ -1,3 +1,6 @@
+import { Guid } from 'js-guid';
+import { Jobs } from './../../../../Common/Jobs';
+import { Company } from './../../../../Common/Company';
 import {
   Component,
   OnInit,
@@ -5,7 +8,12 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  Validator,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiServiceService } from '@app/Services/api-service.service';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -13,6 +21,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { User } from '@app/Common/User';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { DatePipe } from '@angular/common';
 
 export interface PeriodicElement {
   nameCompany: string;
@@ -21,6 +31,7 @@ export interface PeriodicElement {
   fromDay: string;
   toDay: string;
   choose_img: string;
+  date: string;
 }
 export interface PeriodicElement2 {
   logo: string;
@@ -43,42 +54,30 @@ export class EmployeeManagmentJobsComponent implements OnInit {
   ) {}
   @ViewChild(MatTable) table: MatTable<User>;
 
-  // user: User = {
-  //   nameEmployee: '',
-  //   postionEmployee: '',
-  //   email: '',
-  //   id: '',
-  //   address: '',
-  //   user: '',
-  // };
-  // user1: User[] = [
-  //   {
-  //     nameEmployee: '',
-  //     postionEmployee: '',
-  //     email: '',
-  //     id: '',
-  //     address: '',
-  //     user: '',
-  //   },
-  // ];
-  user2: PeriodicElement = {
-    nameCompany: '',
-    type: '',
-    address: '',
-    fromDay: '',
-    toDay: '',
-    choose_img: '',
-  };
-
-  employee1: PeriodicElement2[] = [
+  Company: Company[] = [
     {
-      logo: '123',
-      nameCompany: '123',
-      address: '123',
-      jobs: '123',
+      id: '',
+      name: '',
+      type: '',
+      address: '',
+      dateWork: '',
+      logo: '',
+      imageSrc: '',
     },
   ];
+  JobsObject: Jobs = {
+    id: '',
+    idEmployee: '',
+    idCompany: '',
+    name: '',
+    tag: '',
+    dateExpire: '',
+    descriptions: '',
+    imageSrc: '',
+    active: false,
+  };
 
+  defaultImageSrc = '/assets/image/default-image.png';
   check: any;
   infoRegister: any[] = [];
   dataAccount: any[] = [];
@@ -114,88 +113,135 @@ export class EmployeeManagmentJobsComponent implements OnInit {
     'C',
     'R',
   ];
-  listType: any[] = ['Product', 'out source'];
+
+  dropdownSettings: IDropdownSettings = {};
+  imageFile: { link: any; file: any; name: string };
+
+  onItemSelect(item: any) {
+    console.log('123', item);
+  }
+  onSelectAll(items: any) {
+    console.log('456', items);
+  }
+  handleChange = (evt) => {
+    if (evt.target.files && evt.target.files[0]) {
+      const file = evt.target.files[0];
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.imageFile = {
+          link: e.target.result,
+          file: evt.srcElement.files[0],
+          name: evt.srcElement.files[0].name,
+        };
+      };
+      reader.readAsDataURL(file);
+    } else {
+      this.imageFile = {
+        link: this.defaultImageSrc,
+        file: null,
+        name: '',
+      };
+    }
+  };
 
   Form: any;
   displayedColumns: string[] = [];
   dataSource: any;
   selection: any;
-  status: any;
+  descriptions: any;
 
   employeeCreated = this.formBuilder.group({
-    nameCompany: '',
-    tag : '',
-
+    name: ['', Validators.required],
+    tag: ['', Validators.required],
+    imageFile: '',
+    dateExpire: ['', Validators.required],
   });
-  toppings = new FormControl();
 
   editor = ClassicEditor;
   ngOnInit() {
-    // this.GetAllEmployee();
     this.GetListPost();
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'item_id',
+      textField: 'item_text',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true,
+    };
   }
-
-  // GetAllEmployee = async () => {
-  //   this.displayedColumns = [
-  //     'nameEmployee',
-  //     'email',
-  //     'address',
-  //     'postionEmployee',
-  //     'user',
-  //     'option',
-  //   ];
-  //   this.service.RequestShowListEmployee().subscribe((data: any) => {
-  //     this.dataAccount = data;
-  //     this.user1 = data;
-  //     console.log('dataEmployee', this.user1);
-  //     this.user1.map((x) =>
-  //       x.user === null ? (x.user = 'No account') : (x.user = 'Has account')
-  //     );
-  //     console.log('acc', this.user1);
-
-  //     this.dataSource = new MatTableDataSource<User>(this.user1);
-  //     this.selection = new SelectionModel<User>(true, []);
-  //   });
-  // };
 
   GetListPost = () => {
     this.displayedColumns = [
       'logo',
-      'nameCompany',
+      'name',
       'address',
-      'jobs',
+      'type',
+      'dateWork',
       'active',
       'options',
     ];
-    // this.service.RequestShowListUSer().subscribe((data: any) => {
-    //   this.dataAccount = data;
-    //   this.employee1 = data;
-    //   console.log('dataAccount', this.employee1);
-    // });
-    this.dataSource = new MatTableDataSource<PeriodicElement2>(this.employee1);
-    this.selection = new SelectionModel<PeriodicElement2>(true, []);
+    this.service.RequestShowListCompany().subscribe((data: any) => {
+      this.Company = data;
+      console.log('dataAccount', this.Company);
+      this.dataSource = new MatTableDataSource<Company>(this.Company);
+      this.selection = new SelectionModel<Company>(true, []);
+    });
   };
 
   newForm: any;
+  datePipe: DatePipe = new DatePipe('en-US');
+  currentDate = new Date();
+  dateExpire: any;
+
   onSubmit = () => {
     this.newForm = this.employeeCreated.getRawValue();
-    this.newForm = Object.assign(this.newForm, { user: this.status });
+    console.log('before', this.newForm);
+    let newDateExpire = new Date(this.dateExpire);
+    let newTag = this.newForm.tag.join(',');
+    let test = Math.floor(
+      (Date.UTC(
+        newDateExpire.getFullYear(),
+        newDateExpire.getMonth(),
+        newDateExpire.getDate()
+      ) -
+        Date.UTC(
+          this.currentDate.getFullYear(),
+          this.currentDate.getMonth(),
+          this.currentDate.getDate()
+        )) /
+        (1000 * 60 * 60 * 24)
+    );
+    console.log('test', this.currentDate.toString());
+    if (this.JobsObject.idCompany !== '00000000-0000-0000-0000-000000000000') {
+      this.newForm = Object.assign(this.newForm, {
+        descriptions: this.descriptions,
+        daysLeft: test,
+        active: false,
+        idCompany: this.JobsObject.idEmployee,
+      });
+      this.newForm = {
+        ...this.newForm,
+        tag: newTag,
+      };
+      this.Form = JSON.stringify(this.newForm);
+      console.log('newForm', this.newForm);
 
-    this.Form = JSON.stringify(this.newForm);
-    console.log('Form', this.newForm);
-    // this.service.RequestCreateEmployee(this.Form).subscribe((data: any) => {
-    //   this.infoRegister = data;
-    //   console.log(this.infoRegister);
-    //   if (data.ok === 'Success') {
-    //     console.log('check', this.infoRegister);
-    //     this.matSnackBar.open('Create Employee success', 'Okay!', {
-    //       duration: 5000,
-    //       horizontalPosition: 'center',
-    //       verticalPosition: 'top',
-    //       panelClass: ['snack-success'],
-    //     });
-    //   }
-    // });
+      this.service.RequestCreateJobs(this.newForm).subscribe((data: any) => {
+        this.infoRegister = data;
+        console.log(this.infoRegister);
+        if (data.ok === 'Success') {
+          console.log('check', this.infoRegister);
+          this.matSnackBar.open('Create Employee success', 'Okay!', {
+            duration: 5000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass: ['snack-success'],
+          });
+        }
+      });
+    }
   };
 
   // onReset = () => {
@@ -211,9 +257,6 @@ export class EmployeeManagmentJobsComponent implements OnInit {
 
   newRow: any = {};
   arrayTrue: any[] = [];
-  arrayFalse: any[] = [];
-  arrayApprove: any[] = [];
-
   result: any;
 
   // CheckCheck = (evt, row) => {
@@ -287,8 +330,28 @@ export class EmployeeManagmentJobsComponent implements OnInit {
   //     }
   //   );
   // };
+  handleClick = (row) => {
+    console.log(row);
+    this.JobsObject = {
+      id: '',
+      idEmployee: row.idEmployee,
+      idCompany: row.id,
+      name: row.name,
+      tag: '',
+      descriptions: '',
+      dateExpire: '',
+      active: false,
+      imageSrc: row.imageSrc,
+    };
+    this.imageFile = {
+      file: row.name,
+      link: row.imageSrc,
+      name: row.name,
+    };
+  };
+
   onChange = (evt) => {
-    this.status = evt.editor.getData();
-    console.log('status', evt.editor.getData());
+    this.descriptions = evt.editor.getData();
+    console.log('descriptions', evt.editor.getData());
   };
 }

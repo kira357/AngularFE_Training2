@@ -18,84 +18,71 @@
                     (ngSubmit)="onSubmit()"
                     [formGroup]="employeeCreated"
                     action="javascript:void(0)"
+                    enctype="multipart/form-data"
                   >
                     <div class="row">
-                      <div class="col-md-4 text-center">
-                        <img
-                          class="custom-img"
-                          src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-                          name="choose_img"
-                        />
+                      <div class="col-md-4">
+                        <div class="text-center">
+                          <img
+                            class="custom-img"
+                            id="blah"
+                            [src]="imageFile ? imageFile.link : defaultImageSrc"
+                            alt="your image"
+                          />
+                          <input
+                            type="file"
+                            class="my-3"
+                            accept="image/*"
+                            name="imageFile"
+                            id="imageFile"
+                            formControlName="imageFile"
+                            (change)="handleChange($event)"
+                          />
+                        </div>
 
                         <div class="form-group">
-                          <label for="nameCompany">Name company</label>
+                          <label for="name">Name company</label>
                           <input
                             matInput
                             type="text"
                             class="form-control"
-                            id="nameCompany"
-                            name="nameCompany"
-                            formControlName="nameCompany"
-                            [value]="user2.nameCompany"
-                            [(ngModel)]="user2.nameCompany"
+                            id="name"
+                            name="name"
+                            formControlName="name"
+                            [value]="JobsObject.name"
+                            [(ngModel)]="JobsObject.name"
+                          />
+                        </div>
+
+                        <div class="form-group">
+                          <label for="dateExpire">Date expire</label>
+                          <input
+                            matInput
+                            type="date"
+                            class="form-control"
+                            id="dateExpire"
+                            name="dateExpire"
+                            formControlName="dateExpire"
+                            [min]="currentDate | date: 'yyyy-MM-dd'"
+                            [(ngModel)]="dateExpire"
                           />
                         </div>
 
                         <div class="form-group">
                           <label for="tag">Tag Jobs</label>
-                          <select
-                            class="form-control"
+                          <ng-multiselect-dropdown
                             id="tag"
                             name="tag"
                             formControlName="tag"
-                            multiple
+                            [placeholder]="'custom placeholder'"
+                            [settings]="dropdownSettings"
+                            [data]="listTagJobs"
+                            (onSelect)="onItemSelect($event)"
+                            (onSelectAll)="onSelectAll($event)"
                           >
-                            <option
-                              *ngFor="let item of listTagJobs"
-                              [value]="item"
-                            >
-                              {{ item }}
-                            </option>
-                          </select>
+                          </ng-multiselect-dropdown>
                         </div>
 
-                        <div class="d-flex">
-                          <div class="form-group w-100 mr-1">
-                            <label for="fromDay">From Day</label>
-                            <select
-                              class="form-control"
-                              id="fromDay"
-                              name="fromDay"
-                              formControlName="fromDay"
-                              [value]="user2.fromDay"
-                            >
-                              <option
-                                *ngFor="let item of listFromDay"
-                                [value]="item"
-                              >
-                                {{ item }}
-                              </option>
-                            </select>
-                          </div>
-
-                          <div class="form-group w-100 ml-1">
-                            <label for="toDay">To Day</label>
-                            <select
-                              class="form-control"
-                              id="toDay"
-                              name="toDay"
-                              formControlName="toDay"
-                              [value]="user2.toDay"
-                            >
-                              <option
-                                *ngFor="let item of listToDay"
-                                [value]="item"
-                              >
-                                {{ item }}
-                              </option>
-                            </select>
-                          </div>
-                        </div>
                         <div class="form-group">
                           <label for="description">Description</label>
                           <ckeditor
@@ -117,32 +104,49 @@
                             <ng-container matColumnDef="logo">
                               <th mat-header-cell *matHeaderCellDef>Logo</th>
                               <td mat-cell *matCellDef="let element">
-                                {{ element.logo }}
+                                <img
+                                  src="{{ element.imageSrc }}"
+                                  alt="logo"
+                                  style="
+                                    width: 40px;
+                                    height: 40px;
+                                    border-radius: 50px;
+                                  "
+                                />
                               </td>
                             </ng-container>
 
-                            <ng-container matColumnDef="nameCompany">
+                            <ng-container matColumnDef="name">
                               <th mat-header-cell *matHeaderCellDef>
                                 Name company
                               </th>
                               <td mat-cell *matCellDef="let element">
-                                {{ element.nameCompany }}
+                                {{ element.name }}
                               </td>
                             </ng-container>
 
-                            <ng-container matColumnDef="jobs">
+                            <ng-container matColumnDef="type">
                               <th mat-header-cell *matHeaderCellDef>
-                                Jobs need
+                                Kind of company
                               </th>
                               <td mat-cell *matCellDef="let element">
-                                {{ element.jobs }}
+                                {{ element.type }}
                               </td>
                             </ng-container>
 
                             <ng-container matColumnDef="address">
-                              <th mat-header-cell *matHeaderCellDef>Address</th>
+                              <th mat-header-cell *matHeaderCellDef>address</th>
                               <td mat-cell *matCellDef="let element">
                                 {{ element.address }}
+                              </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="dateWork">
+                              <th mat-header-cell *matHeaderCellDef>
+                                Date Work
+                              </th>
+                              <td mat-cell *matCellDef="let element">
+                                {{ element.dateWork }}
                               </td>
                             </ng-container>
 
@@ -151,6 +155,7 @@
                               <td mat-cell *matCellDef="let element">
                                 <mat-slide-toggle
                                   class="mr-2"
+                                  [checked]="element.active"
                                 ></mat-slide-toggle>
                               </td>
                             </ng-container>
@@ -168,6 +173,7 @@
                             <tr
                               mat-row
                               *matRowDef="let row; columns: displayedColumns"
+                              (click)="handleClick(row)"
                             ></tr>
                           </table>
                         </div>
