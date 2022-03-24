@@ -51,7 +51,7 @@ export class DashboardsComponentComponent implements OnInit {
       status: '',
     },
   ];
-  
+
   displayedColumns: string[] = [];
   dataSource: any;
   selection: any;

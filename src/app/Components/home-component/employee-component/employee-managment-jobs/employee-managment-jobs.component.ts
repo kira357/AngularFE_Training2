@@ -70,6 +70,7 @@ export class EmployeeManagmentJobsComponent implements OnInit {
     idEmployee: '',
     idCompany: '',
     name: '',
+    nameCompany: '',
     tag: '',
     dateExpire: '',
     descriptions: '',
@@ -153,6 +154,7 @@ export class EmployeeManagmentJobsComponent implements OnInit {
 
   employeeCreated = this.formBuilder.group({
     name: ['', Validators.required],
+    nameCompany: ['', Validators.required],
     tag: ['', Validators.required],
     imageFile: '',
     dateExpire: ['', Validators.required],
@@ -336,7 +338,8 @@ export class EmployeeManagmentJobsComponent implements OnInit {
       id: '',
       idEmployee: row.idEmployee,
       idCompany: row.id,
-      name: row.name,
+      name: '',
+      nameCompany: row.name,
       tag: '',
       descriptions: '',
       dateExpire: '',

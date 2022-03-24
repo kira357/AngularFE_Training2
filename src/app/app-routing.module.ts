@@ -13,10 +13,13 @@ import { EmployeeDashboardsComponent } from './Components/home-component/employe
 import { EmployeeInformationComponent } from './Components/home-component/employee-component/employee-information/employee-information/employee-information.component';
 import { EmployeeComponent } from './Components/home-component/employee-component/employee/employee.component';
 import { EmployeeManagmentJobsComponent } from './Components/home-component/employee-component/employee-managment-jobs/employee-managment-jobs.component';
+import { ClientModuleComponent } from './Components/home-component/client-module/client-component/client-module.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponentComponent },
+  { path: 'client', component: ClientModuleComponent },
+
   { path: 'register', component: RegisterComponentComponent },
   {
     path: 'employee',

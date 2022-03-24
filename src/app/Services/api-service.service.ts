@@ -1,3 +1,4 @@
+import { Guid } from 'js-guid';
 import { Observable, retry } from 'rxjs';
 
 import { Injectable } from '@angular/core';
@@ -86,6 +87,10 @@ export class ApiServiceService {
   RequestShowListJobs = () => {
     return this.http.get(`${this.rootURLCompany}/get_jobs`, {
       headers: this.headers,
+    });
+  };
+  RequestDeleteJob = (id: string) => {
+    return this.http.delete(`${this.rootURLCompany}/delete_jobs/${id}`, {
     });
   };
 }

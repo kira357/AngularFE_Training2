@@ -3,6 +3,7 @@ export interface Jobs {
   idEmployee: string;
   idCompany: string;
   name: string;
+  nameCompany: string;
   tag: string;
   dateExpire: string;
   descriptions: string;

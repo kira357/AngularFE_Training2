@@ -41,7 +41,22 @@
                         </div>
 
                         <div class="form-group">
-                          <label for="name">Name company</label>
+                          <label for="nameCompany">Name company</label>
+                          <input
+                            matInput
+                            type="text"
+                            class="form-control"
+                            id="nameCompany"
+                            name="nameCompany"
+                            formControlName="nameCompany"
+                            [value]="JobsObject.nameCompany"
+                            [(ngModel)]="JobsObject.nameCompany"
+                            
+                          />
+                        </div>
+
+                        <div class="form-group">
+                          <label for="name">Name Jobs</label>
                           <input
                             matInput
                             type="text"

@@ -1,9 +1,7 @@
-import { EmployeeDashboardsComponent } from './../../employee-component/employee-dashboards/employee-dashboards/employee-dashboards.component';
-import { EmployeeManagmentModule } from './../../employee-component/employee-managment/employee-managment/employee-managment.module';
-import { EmployeeInformationModule } from './../../employee-component/employee-information/employee-information/employee-information.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MainComponent } from './main.component';
+import { ClientModuleComponent } from './client-component/client-module.component';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { FormsModule } from '@angular/forms';
@@ -14,6 +12,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatChipsModule } from '@angular/material/chips';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { MatPaginatorModule } from '@angular/material/paginator';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -26,9 +26,10 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     HttpClientModule,
     MatChipsModule,
     CKEditorModule,
+    MatPaginatorModule,
     NgMultiSelectDropDownModule.forRoot(),
   ],
-  exports: [MainComponent],
-  declarations: [MainComponent, EmployeeDashboardsComponent],
+  declarations: [ClientModuleComponent],
+  exports: [ClientModuleComponent],
 })
-export class MainModule {}
+export class ClientModuleModule {}
