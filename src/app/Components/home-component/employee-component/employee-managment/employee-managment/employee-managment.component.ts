@@ -15,6 +15,7 @@ import { User } from '@app/Common/User';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { CookieService } from 'ngx-cookie-service';
+import { Jobs } from '@app/Common/Jobs';
 
 @Component({
   selector: 'app-employee-managment',
@@ -31,32 +32,33 @@ export class EmployeeManagmentComponent implements OnInit {
   ) {}
   @ViewChild(MatTable) table: MatTable<User>;
   defaultImageSrc = '/assets/image/default-image.png';
-  user: User = {
-    nameEmployee: '',
-    postionEmployee: '',
-    email: '',
-    id: '',
-    address: '',
-    user: '',
-  };
-  user1: User[] = [
+
+  Company: Company[] = [
     {
-      nameEmployee: '',
-      postionEmployee: '',
-      email: '',
       id: '',
+      name: '',
+      type: '',
       address: '',
-      user: '',
+      dateWork: '',
+      fromDay: '',
+      toDay: '',
+      logo: '',
+      imageSrc: '',
+      descriptions: '',
     },
   ];
-  user2: Company = {
+
+  JobsObject: Jobs = {
     id: '',
+    idEmployee: '',
+    idCompany: '',
     name: '',
-    type: '',
-    address: '',
-    dateWork: '',
-    logo: '',
+    nameCompany: '',
+    tag: '',
+    dateExpire: '',
+    descriptions: '',
     imageSrc: '',
+    active: false,
   };
 
   check: any;
@@ -90,31 +92,26 @@ export class EmployeeManagmentComponent implements OnInit {
 
   editor = ClassicEditor;
   ngOnInit() {
-    // this.GetAllEmployee();
+    this.GetListPost();
   }
 
-  // GetAllEmployee = async () => {
-  //   this.displayedColumns = [
-  //     'nameEmployee',
-  //     'email',
-  //     'address',
-  //     'postionEmployee',
-  //     'user',
-  //     'option',
-  //   ];
-  //   this.service.RequestShowListEmployee().subscribe((data: any) => {
-  //     this.dataAccount = data;
-  //     this.user1 = data;
-  //     console.log('dataEmployee', this.user1);
-  //     this.user1.map((x) =>
-  //       x.user === null ? (x.user = 'No account') : (x.user = 'Has account')
-  //     );
-  //     console.log('acc', this.user1);
-
-  //     this.dataSource = new MatTableDataSource<User>(this.user1);
-  //     this.selection = new SelectionModel<User>(true, []);
-  //   });
-  // };
+  GetListPost = () => {
+    this.displayedColumns = [
+      'logo',
+      'name',
+      'address',
+      'type',
+      'dateWork',
+      'active',
+      'options',
+    ];
+    this.service.RequestShowListCompany().subscribe((data: any) => {
+      this.Company = data.dataCompany;
+      console.log('dataAccount', this.Company);
+      this.dataSource = new MatTableDataSource<Company>(this.Company);
+      this.selection = new SelectionModel<Company>(true, []);
+    });
+  };
 
   newForm: any;
   combDate: any;
@@ -149,7 +146,10 @@ export class EmployeeManagmentComponent implements OnInit {
     type: '',
     address: '',
     dateWork: '',
+    fromDay: '',
+    toDay: '',
     logo: '',
+    descriptions: '',
     imageSrc: '',
   };
   employeeCreated = this.formBuilder.group({
@@ -198,95 +198,53 @@ export class EmployeeManagmentComponent implements OnInit {
     });
   };
 
-  onReset = () => {
-    this.user = {
-      nameEmployee: '',
-      postionEmployee: '',
-      email: '',
-      id: '',
-      address: '',
-      user: '',
-    };
-  };
-
-  newRow: any = {};
-  arrayTrue: any[] = [];
-  arrayFalse: any[] = [];
-  arrayApprove: any[] = [];
+  onReset = () => {};
 
   result: any;
 
-  CheckCheck = (evt, row) => {
-    this.newRow = Object.assign({}, row, { approve: evt.checked });
-    if (evt.checked) {
-      this.arrayTrue.push(this.newRow);
-      console.log('arrayTrue', this.arrayTrue);
-    } else {
-      let el = this.arrayTrue.find((itm) => itm.email === row.email);
-      if (el) {
-        this.arrayTrue.splice(this.arrayTrue.indexOf(el), 1);
-      }
-    }
-    console.log('changedPermissions', this.arrayTrue);
+  onChange = (evt) => {
+    this.descriptions = evt.editor.getData();
+    console.log('descriptions', evt.editor.getData());
   };
-  getRowClick = async (evt) => {
-    this.user = {
-      nameEmployee: evt.nameEmployee,
-      postionEmployee: evt.postionEmployee,
-      email: evt.email,
-      id: '',
-      address: evt.address,
-      user: evt.user,
-    };
-    console.log('getRow', this.user);
-  };
-  onUpdate = () => {
-    this.Form = JSON.stringify(this.employeeCreated.getRawValue());
-    console.log('Form', this.Form);
-    this.service.RequestUpdateEmployee(this.Form).subscribe((data: any) => {
+
+  onClickDelete = (id: any) => {
+    this.service.RequestDeleteCompany(id).subscribe((data: any) => {
       this.result = data;
       console.log('result', this.result);
       if (data.ok === 'Success') {
         console.log('check', this.result);
-        this.matSnackBar.open('Update Employee success', 'Okay!', {
+        this.matSnackBar.open('Delete Employee success', 'Okay!', {
           duration: 5000,
           horizontalPosition: 'center',
           verticalPosition: 'top',
           panelClass: ['snack-success'],
         });
-        this.table.renderRows();
       }
     });
   };
-  removeData = () => {
-    console.log('arrayTrue', this.arrayTrue);
-    this.service.RequestDeteleEmployee(this.arrayTrue).subscribe(
-      (data: any) => {
-        this.result = data;
-        console.log('result', this.result);
-        if (data.ok === 'Success') {
-          console.log('check', this.result);
-          this.matSnackBar.open('Delete Employee success', 'Okay!', {
-            duration: 5000,
-            horizontalPosition: 'center',
-            verticalPosition: 'top',
-            panelClass: ['snack-success'],
-          });
-          this.table.renderRows();
-        }
-      },
-      (err) => {
-        this.matSnackBar.open('Delete Employee fail', 'Okay!', {
-          duration: 5000,
-          horizontalPosition: 'center',
-          verticalPosition: 'top',
-          panelClass: ['snack-fails'],
-        });
-      }
-    );
-  };
-  onChange = (evt) => {
-    this.descriptions = evt.editor.getData();
-    console.log('descriptions', evt.editor.getData());
+  newData: any;
+  handleClick = (row) => {
+    let seperateDay = row.dateWork.split('-');
+
+    console.log(row);
+    this.data = {
+      id: '',
+      descriptions: row.descriptions,
+      fromDay: seperateDay[0],
+      toDay: seperateDay[1],
+      name: row.name,
+      type: row.type,
+      address: row.address,
+      dateWork: '',
+      logo: '',
+      imageSrc: row.imageSrc,
+    };
+
+    console.log('newData', this.newData);
+    this.imageFile = {
+      file: row.name,
+      link: row.imageSrc,
+      name: row.name,
+    };
   };
 }

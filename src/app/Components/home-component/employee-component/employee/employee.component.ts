@@ -99,6 +99,7 @@ export class EmployeeComponent implements OnInit {
       console.log(this.infoRegister);
       if (data.ok === 'Success') {
         console.log('check', this.infoRegister);
+        this.GetAllEmployee();
         this.matSnackBar.open('Create Employee success', 'Okay!', {
           duration: 5000,
           horizontalPosition: 'center',
@@ -145,7 +146,7 @@ export class EmployeeComponent implements OnInit {
       nameEmployee: evt.nameEmployee,
       postionEmployee: evt.postionEmployee,
       email: evt.email,
-      id: '',
+      id: evt.id,
       address: evt.address,
       user: evt.user,
     };
@@ -154,11 +155,17 @@ export class EmployeeComponent implements OnInit {
 
   onUpdate = () => {
     this.Form = JSON.stringify(this.employeeCreated.getRawValue());
-    console.log('Form', this.Form);
-    this.service.RequestUpdateEmployee(this.Form).subscribe((data: any) => {
+    console.log('Form1', this.Form);
+    this.user = {
+      ...this.employeeCreated.getRawValue(),
+      id: this.user.id,
+    };
+    console.log('Form2', this.user);
+    this.service.RequestUpdateEmployee(this.user).subscribe((data: any) => {
       this.result = data;
       console.log('result', this.result);
       if (data.ok === 'Success') {
+        this.GetAllEmployee();
         console.log('check', this.result);
         this.matSnackBar.open('Update Employee success', 'Okay!', {
           duration: 5000,
@@ -179,6 +186,7 @@ export class EmployeeComponent implements OnInit {
         console.log('result', this.result);
         if (data.ok === 'Success') {
           console.log('check', this.result);
+          this.GetAllEmployee();
           this.matSnackBar.open('Delete Employee success', 'Okay!', {
             duration: 5000,
             horizontalPosition: 'center',

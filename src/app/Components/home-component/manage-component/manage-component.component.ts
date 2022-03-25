@@ -94,13 +94,14 @@ export class ManageComponentComponent implements OnInit {
 
   onSubmit = () => {
     this.Form = JSON.stringify(this.userCreated.getRawValue());
-    console.log('Form', this.Form);
+    console.log('Form1', this.Form);
     this.service.RequestRegister(this.Form).subscribe(
       (data: any) => {
         this.infoRegister = data;
         console.log(this.infoRegister);
         if (data.ok === 'Success') {
           console.log('check', this.infoRegister);
+          this.GetAllAccount();
           this.matSnackBar.open('Create success', 'Okay!', {
             duration: 5000,
             horizontalPosition: 'center',
@@ -110,6 +111,7 @@ export class ManageComponentComponent implements OnInit {
         }
       },
       (err) => {
+        this.GetAllAccount();
         this.matSnackBar.open('Create Account fail', 'Okay!', {
           duration: 5000,
           horizontalPosition: 'center',
@@ -181,6 +183,7 @@ export class ManageComponentComponent implements OnInit {
         console.log('result', this.result);
         if (data.ok === 'Success') {
           console.log('check', this.result);
+          this.GetAllAccount();
           this.matSnackBar.open('Approve Success', 'Okay!', {
             duration: 5000,
             horizontalPosition: 'center',
@@ -208,6 +211,7 @@ export class ManageComponentComponent implements OnInit {
         console.log('result', this.result);
         if (data.ok === 'Success') {
           console.log('check', this.result);
+          this.GetAllAccount();
           this.matSnackBar.open('Delete account Success', 'Okay!', {
             duration: 5000,
             horizontalPosition: 'center',

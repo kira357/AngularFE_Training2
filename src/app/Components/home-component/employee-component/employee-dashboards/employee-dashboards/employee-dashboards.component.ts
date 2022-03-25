@@ -83,10 +83,26 @@ export class EmployeeDashboardsComponent implements OnInit {
     });
   };
 
-  handleDeleteJob = async (id:any) => {
+  handleDeleteJob = async (id: any) => {
     console.log('id', id);
     await this.service.RequestDeleteJob(id).subscribe((data: any) => {
       this.GetListPost();
     });
+  };
+  onChangeActive = async (id: any, active: any) => {
+    if (active.check === true) {
+      await this.service
+        .RequestChangeActive(id, active.checked)
+        .subscribe((data: any) => {
+          console.log('data', data.ok);
+          this.GetListPost();
+        });
+    }else{
+      await this.service
+        .RequestChangeActive(id, active.checked)
+        .subscribe((data: any) => {
+          this.GetListPost();
+        });
+    }
   };
 }

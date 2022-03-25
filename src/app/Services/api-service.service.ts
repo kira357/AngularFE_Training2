@@ -61,7 +61,7 @@ export class ApiServiceService {
     });
   };
 
-  RequestShowInformation = async (username: string) => {
+  RequestShowInformation = async (username: any) => {
     return this.http.post(
       `${this.rootURL}/get_information`,
       { username },
@@ -78,6 +78,10 @@ export class ApiServiceService {
       headers: this.headers,
     });
   };
+
+  RequestDeleteCompany = (id: any) => {
+    return this.http.delete(`${this.rootURLCompany}/delete_company/${id}`, {});
+  };
   RequestCreateJobs = (Jobs: any) => {
     return this.http.post(`${this.rootURLCompany}/create_jobs`, Jobs, {
       headers: this.headers,
@@ -91,5 +95,20 @@ export class ApiServiceService {
   };
   RequestDeleteJob = (id: string) => {
     return this.http.delete(`${this.rootURLCompany}/delete_jobs/${id}`, {});
+  };
+  RequestChangeActive = (id: string, active: any) => {
+    return this.http.put(`${this.rootURLCompany}/active_jobs/${id}`, {
+      active,
+    });
+  };
+  RequestShowListJobsByCompany = (id: any) => {
+    return this.http.get(`${this.rootURLCompany}/get_jobsByCompany/${id}`, {
+      headers: this.headers,
+    });
+  };
+  RequestShowDetailJobs = (id: any) => {
+    return this.http.get(`${this.rootURLCompany}/get_detailjob/${id}`, {
+      headers: this.headers,
+    });
   };
 }

@@ -260,3 +260,9 @@ a {
 .fa {
   color: red;
 }
+.custome-hot {
+  padding: 2px 15px;
+  font-size: 14px;
+  color: white;
+  background-color: orange;
+}

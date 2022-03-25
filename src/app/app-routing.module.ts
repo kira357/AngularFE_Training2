@@ -17,7 +17,8 @@ import { EmployeeManagmentJobsComponent } from './Components/home-component/empl
 import { ClientModuleComponent } from './Components/home-component/client-module/client-component/client-module.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  // { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'client', pathMatch: 'full' },
   { path: 'login', component: LoginComponentComponent },
   {
     path: 'client',

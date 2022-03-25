@@ -63,6 +63,7 @@
                   <mat-slide-toggle
                     [checked]="element.active"
                     class="mr-2"
+                    (change)="onChangeActive(element.idJobs, $event)"
                   ></mat-slide-toggle>
                 </td>
               </ng-container>

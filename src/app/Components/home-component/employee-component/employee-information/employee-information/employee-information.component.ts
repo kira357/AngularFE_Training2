@@ -97,7 +97,12 @@ export class EmployeeInformationComponent implements OnInit {
         this.user1[index].address = this.employeeCreated.value.address;
       });
     } else {
-      this.service.RequestUpdateEmployee(this.Form).subscribe(
+      this.user = {
+        ...this.employeeCreated.getRawValue(),
+        id: this.cookieService.get('id'),
+      }
+      console.log('user', this.user);
+      this.service.RequestUpdateEmployee(this.user).subscribe(
         (data: any) => {
           this.result = data;
           console.log('result', this.result);

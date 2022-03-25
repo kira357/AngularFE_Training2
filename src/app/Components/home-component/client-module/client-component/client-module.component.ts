@@ -1,6 +1,12 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { User } from '@app/Common/User';
 import { FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -14,7 +20,7 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
   templateUrl: '././client-module.component.html',
   styleUrls: ['././client-module.component.css'],
 })
-export class ClientModuleComponent implements OnInit {
+export class ClientModuleComponent implements OnInit, OnChanges {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -23,11 +29,29 @@ export class ClientModuleComponent implements OnInit {
     private cookieService: CookieService,
     private matSnackBar: MatSnackBar
   ) {}
+  ngOnChanges(): void {
+    this.cookieValue = this.cookieService.get('username');
+    if (this.cookieValue !== undefined) {
+      this.GetAllEmployee();
+      // this.GetListPost();
+    } else {
+      this.isHiddenLogin = false;
+      this.isHiddenText = true;
+      this.isHiddenLogout = true;
+    }
+  }
 
   @ViewChild(MatTable) table: MatTable<CompanyJobs>;
   ngOnInit() {
-    this.GetAllEmployee();
-    this.GetListPost();
+    this.cookieValue = this.cookieService.get('username');
+    if (this.cookieValue !== undefined) {
+      this.GetListPost();
+    } else {
+      this.isHiddenLogin = false;
+      this.isHiddenText = true;
+      this.isHiddenLogout = true;
+      this.GetListPost();
+    }
   }
 
   element = {
@@ -61,7 +85,7 @@ export class ClientModuleComponent implements OnInit {
 
   GetAllEmployee = async () => {
     this.cookieValue = this.cookieService.get('username');
-    if (this.cookieValue !== null) {
+    if (this.cookieValue !== undefined) {
       this.nameUser = this.cookieValue;
       this.isHiddenLogin = true;
       this.isHiddenText = false;
@@ -86,8 +110,11 @@ export class ClientModuleComponent implements OnInit {
     this.cookieService.delete('user');
     this.router.navigate(['/login']);
   };
+  Login = () => {
+    this.router.navigate(['/login']);
+  };
 
-  newJob : any
+  newJob: any;
   test: any;
   GetListPost = () => {
     this.service.RequestShowListJobs().subscribe((data: any) => {

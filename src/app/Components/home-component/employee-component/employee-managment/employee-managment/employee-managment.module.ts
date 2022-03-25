@@ -16,6 +16,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatChipsModule } from '@angular/material/chips';
+
 
 @NgModule({
   imports: [
@@ -33,6 +35,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatSelectModule,
     MatFormFieldModule,
     MatPaginatorModule,
+    MatChipsModule,
     NgMultiSelectDropDownModule.forRoot(),
   ],
   declarations: [EmployeeManagmentComponent, EmployeeManagmentJobsComponent],
