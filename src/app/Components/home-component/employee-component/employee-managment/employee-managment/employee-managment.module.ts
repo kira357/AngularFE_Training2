@@ -15,7 +15,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   imports: [
@@ -32,6 +32,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     MatSlideToggleModule,
     MatSelectModule,
     MatFormFieldModule,
+    MatPaginatorModule,
     NgMultiSelectDropDownModule.forRoot(),
   ],
   declarations: [EmployeeManagmentComponent, EmployeeManagmentJobsComponent],

@@ -185,7 +185,7 @@ export class EmployeeManagmentJobsComponent implements OnInit {
       'options',
     ];
     this.service.RequestShowListCompany().subscribe((data: any) => {
-      this.Company = data;
+      this.Company = data.dataCompany;
       console.log('dataAccount', this.Company);
       this.dataSource = new MatTableDataSource<Company>(this.Company);
       this.selection = new SelectionModel<Company>(true, []);

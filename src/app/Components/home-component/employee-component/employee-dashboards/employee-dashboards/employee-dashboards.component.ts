@@ -83,15 +83,10 @@ export class EmployeeDashboardsComponent implements OnInit {
     });
   };
 
-  rowData: any;
   handleDeleteJob = async (id:any) => {
     console.log('id', id);
     await this.service.RequestDeleteJob(id).subscribe((data: any) => {
       this.GetListPost();
     });
-  };
-  getRowData = (row) => {
-    this.rowData = row.idJobs;
-    console.log('row', this.rowData);
   };
 }

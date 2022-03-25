@@ -1,3 +1,4 @@
+import { DetailJobsComponent } from './Components/home-component/detail-jobs/detail-jobs.component';
 import { EmployeeManagmentComponent } from './Components/home-component/employee-component/employee-managment/employee-managment/employee-managment.component';
 import { ManageComponentComponent } from './Components/home-component/manage-component/manage-component.component';
 import { HomeModuleComponent } from './Components/home-component/home-module/home-module.component';
@@ -18,7 +19,11 @@ import { ClientModuleComponent } from './Components/home-component/client-module
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponentComponent },
-  { path: 'client', component: ClientModuleComponent },
+  {
+    path: 'client',
+    component: ClientModuleComponent,
+    children: [{ path: 'detail/:id', component: DetailJobsComponent }],
+  },
 
   { path: 'register', component: RegisterComponentComponent },
   {

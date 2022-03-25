@@ -1,10 +1,13 @@
+import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from '@app/Common/User';
 import { FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ApiServiceService } from '@app/Services/api-service.service';
 import { CookieService } from 'ngx-cookie-service';
+import { CompanyJobs } from '@app/Common/CompanyJobs';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-client-module',
@@ -20,13 +23,18 @@ export class ClientModuleComponent implements OnInit {
     private cookieService: CookieService,
     private matSnackBar: MatSnackBar
   ) {}
+
+  @ViewChild(MatTable) table: MatTable<CompanyJobs>;
   ngOnInit() {
     this.GetAllEmployee();
+    this.GetListPost();
   }
 
   element = {
     tag: '123',
   };
+
+  infoJobs: CompanyJobs[] = [];
   user1: User[] = [
     {
       nameEmployee: '',
@@ -38,9 +46,6 @@ export class ClientModuleComponent implements OnInit {
     },
   ];
   dataAccount: any[] = [];
-  Form: any;
-  dataSource: any;
-  statusAccount = ['Active', 'Inactive'];
   status: any;
   private cookieValue = 'UNKNOWN';
   disabled: boolean = true;
@@ -48,7 +53,11 @@ export class ClientModuleComponent implements OnInit {
   isHiddenLogout: boolean = false;
   isHiddenText: boolean = true;
   nameUser: any;
-  result: any;
+  Form: any;
+  displayedColumns: string[] = [];
+  dataSource: any;
+  selection: any;
+  descriptions: any;
 
   GetAllEmployee = async () => {
     this.cookieValue = this.cookieService.get('username');
@@ -76,5 +85,22 @@ export class ClientModuleComponent implements OnInit {
     this.cookieService.delete('username');
     this.cookieService.delete('user');
     this.router.navigate(['/login']);
+  };
+
+  newJob : any
+  test: any;
+  GetListPost = () => {
+    this.service.RequestShowListJobs().subscribe((data: any) => {
+      this.infoJobs = data;
+      console.log('dataAccount', this.infoJobs);
+      this.test = this.infoJobs.map((x) => {
+        let y = x.tag.split(',').map((z) => {
+          return { name: z };
+        });
+        return { ...x, tag: y };
+      });
+
+      console.log('tag', this.test);
+    });
   };
 }

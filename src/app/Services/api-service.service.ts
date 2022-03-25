@@ -90,7 +90,6 @@ export class ApiServiceService {
     });
   };
   RequestDeleteJob = (id: string) => {
-    return this.http.delete(`${this.rootURLCompany}/delete_jobs/${id}`, {
-    });
+    return this.http.delete(`${this.rootURLCompany}/delete_jobs/${id}`, {});
   };
 }

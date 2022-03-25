@@ -51,77 +51,68 @@
       <div class="container mt-50 mb-50">
         <div class="row">
           <div class="col-md-12">
-            <div class="card card-body mt-3">
-              <div
-                class="media align-items-center align-items-lg-start text-center text-lg-left flex-column flex-lg-row"
-              >
-                <div class="mr-2 mb-3 mb-lg-0">
-                  <img
-                    src="https://i.imgur.com/5Aqgz7o.jpg"
-                    width="100"
-                    height="100"
-                    alt=""
-                  />
-                </div>
-                <div class="media-body">
-                  <ul class="list-inline list-inline-dotted mb-3 mb-lg-2">
-                    <li class="list-inline-item">
-                      <a href="#" class="text-muted" data-abc="true">At man </a>
-                    </li>
-                    <li class="list-inline-item">
-                      <a href="#" class="text-muted" data-abc="true"
-                        >Product
-                      </a>
-                    </li>
-                    <li class="list-inline-item">
-                      <a href="#" class="text-muted" data-abc="true"
-                        >Day of work
-                      </a>
-                    </li>
-                  </ul>
-                  <div class="my-3" data-abc="true">
-                    <a href="#"> Sign in to view </a>
+            <div class="div" *ngFor="let item of test">
+              <div class="card card-body mt-3" (keyup)="(item)">
+                <div
+                  class="media align-items-center align-items-lg-start text-center text-lg-left flex-column flex-lg-row"
+                >
+                  <div class="mr-2 mb-3 mb-lg-0">
+                    <img
+                      src="{{ item.imageSrc }}"
+                      width="100"
+                      height="100"
+                      alt=""
+                    />
                   </div>
-
-                  <ul class="list-inline list-inline-dotted mb-0">
-                    <li class="list-inline-item d-plex">
-                      Skill need:
-                      <mat-chip-list
-                        class="example-chip"
-                        style="max-width: 100px"
+                  <div class="media-body">
+                    <ul class="list-inline list-inline-dotted mb-3 mb-lg-2">
+                      <li class="list-inline-item">
+                        <a href="#" class="text-muted" data-abc="true">{{
+                          item.nameJobs
+                        }}</a>
+                      </li>
+                    </ul>
+                    <div class="my-3" data-abc="true">
+                      <a
+                        [routerLink]="['detail', item.idJobs]"
+                        [queryParams]="{ debug: true }"
+                        fragment="education"
                       >
-                        <mat-chip
-                          class="example-box"
-                    
+                        Sign in to view
+                      </a>
+                    </div>
+
+                    <ul class="list-inline list-inline-dotted mb-0">
+                      <li class="list-inline-item d-plex">
+                        Skill need:
+                        <mat-chip-list
+                          class="example-chip"
+                          style="max-width: 100px"
                         >
-                          {{ 123 }}
-                        </mat-chip>
-                      </mat-chip-list>
-                    </li>
-                  </ul>
-                </div>
-                <div class="mt-3 mt-lg-0 ml-lg-3 text-center">
-                  <h3 class="mb-0 font-weight-semibold">hot</h3>
-                  <div class="text-muted">HCM </div>
-                  <div class="text-muted">day left</div>
+                          <mat-chip
+                            class="example-box"
+                            cdkDrag
+                            *ngFor="let item1 of item.tag"
+                          >
+                            {{ item1.name }}
+                          </mat-chip>
+                        </mat-chip-list>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="mt-3 mt-lg-0 ml-lg-3 text-center">
+                    <h3 class="mb-0 font-weight-semibold">hot</h3>
+                    <div class="text-muted">{{item.dayLeft}}</div>
+                  </div>
                 </div>
               </div>
             </div>
-
-            <mat-paginator
-              [length]="100"
-              [pageSize]="10"
-              [pageSizeOptions]="[5, 10, 25, 100]"
-              aria-label="Select page"
-            >
-            </mat-paginator>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="col px-md-4 bg-light">
-      123
+    <div class="col px-md-4 bg-dark ml-lg-2">
       <div class="content-container">
         <router-outlet></router-outlet>
       </div>
